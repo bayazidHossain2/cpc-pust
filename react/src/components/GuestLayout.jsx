@@ -15,7 +15,6 @@ export default function GuestLayout() {
     return <Navigate to="/" />
   }
 
-
   return (
     <div>
       <div className=" relative">
@@ -28,6 +27,7 @@ export default function GuestLayout() {
               <h3 className=" text-3xl font-bold text-blue-900">Welcome To</h3>
               <h4 className="text-xl font-bold text-blue-500">Computer & Programming Club, PUST</h4>
               <p className=' text-sm font-medium text-blue-400'>Please login to continue.</p>
+
             </div>
             <div className=" w-full md:w-1/2 mt-8">
 
