@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axiosClient from '../../../axios-client';
 import { useStateContext } from '../../../contexts/contextProvider';
 
@@ -15,6 +15,8 @@ export default function Signup() {
   const { setUser, setToken } = useStateContext()
 
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [mailVarify, setMailVarify] = useState(false);
 
   const submit = () => {
     const payload = {
@@ -26,22 +28,42 @@ export default function Signup() {
       password: passwordRef.current.value,
       password_confirmation: confirmPasswordRef.current.value,
     }
-
+    setLoading(true);
+    setErrors(null);
     axiosClient.post('/signup', payload)
       .then(({ data }) => {
         console.log('-----------------')
         console.log(data.user);
         console.log(data.token);
-        setUser(data.user)
-        setToken(data.token)
+        console.log(data.v_code);
+        // setUser(data.user)
+        // setToken(data.token)
 
+        const load = {
+          code: data.v_code,
+          mail: emailRef.current.value,
+        }
+        axiosClient.post('/send-mail', load)
+        .then(() => {
+          console.log('Mail send successfully');
+        })
+        .catch(err => {
+          console.log("send-mail err :"+err);
+        })
+
+        setLoading(false);
+        setMailVarify(true);
+        
       })
       .catch(err => {
+
+        console.log("err :"+err);
         const response = err.response;
         if (response && response.status === 422) {
           console.log(response.data.errors);
           setErrors(response.data.errors);
         }
+        setLoading(false);
       })
 
     console.log(payload);
@@ -60,7 +82,17 @@ export default function Signup() {
         </div>
 
       }
-      <form>
+      {mailVarify ? 
+        <div className="">
+          <div className={loading ? " opacity-50 pointer-events-none cursor-default mt-6 text-right" : "mt-6 text-right"}>
+          
+          <Link className=" bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white" to="/mail-varify">
+            Go to Mail Varify.
+          </Link>
+        </div>
+        </div>
+        :
+        <form>
         {/* Name  */}
         <div className='inp-component'>
           <label className="block text-sm font-medium text-slate-700">Name</label>
@@ -125,12 +157,42 @@ export default function Signup() {
           <Link className=" hover:text-blue-500 pt-2.5 text-sm leading-5 rounded-md font-semibold text-blue-300 cursor-pointer" to="/login">Already have an account? goto sign in.
           </Link>
         </div>
-        <div className="mt-6 text-right">
+
+        {loading&&
+        <div className="mt-1 text-center">
+          <div className=" text-blue-500 pt-2.5 text-sm leading-5 rounded-md font-semibold" >Wait for surver response...
+          </div>
+        </div>
+        }
+
+        <div className={loading ? " opacity-50 pointer-events-none cursor-default mt-6 text-right" : "mt-6 text-right"}>
           <div onClick={submit} className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white">
             Sign up
           </div>
         </div>
-      </form>
+      </form>}
     </div>
   )
 }
+
+
+// $table->id();
+//             $table->string('name');
+//             $table->string('email')->unique();
+//             $table->timestamp('email_verified_at')->nullable();
+//             $table->string('password');
+//             $table->rememberToken();
+//             $table->timestamps();
+//             $table->string('department');
+//             $table->integer('s_id');
+//             $table->string('session');
+//             $table->integer('v_code')->nullable();
+//             $table->string('profile_image')->nullable();
+//             $table->string('profession')->nullable();
+//             $table->string('cpc_position')->nullable();
+//             $table->string('passing_year')->nullable();
+//             $table->unsignedBigInteger('current_job_id')->nullable();
+//             $table->foreign('current_job_id')->references('job_id')->on('job_history');
+//             $table->string('phone')->nullable();
+//             $table->string('linked_in')->nullable();
+//             $table->string('git')->nullable();

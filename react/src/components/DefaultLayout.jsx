@@ -71,7 +71,7 @@ export default function DefaultLayout() {
       <div className='flex flex-row w-full h-screen'>
         <aside className='hidden flex-col space-y-3 bg-blue-500 text-white p-4 w-1/4 md:pt-8 md:pl-4 md:flex'>
           <h3 className=' text-2xl font-bold mt-3 mx-auto'>Admin</h3>
-          <ul className="scrollable overflow-auto flex flex-col space-y-3">
+          <ul className="overflow-auto flex flex-col space-y-3">
             {/* Dashboard */}
             <li onClick={usersListener} className='flex flex-row items-center hover:text-slate-200 p-2 text-left font-bold cursor-pointer '>
               <svg className='w-6 h-6' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -94,16 +94,16 @@ export default function DefaultLayout() {
               <div className={usersActive ? '' : 'hidden'}>
                 <ol className='ml-6 font-semibold flex flex-col space-y-2'>
                   <li>
-                    <Link to="/blogs">Advisor</Link>
+                    <Link to="/advisor">Advisor</Link>
                   </li>
                   <li>
-                    <Link to="/blogs">Team</Link>
+                    <Link to="/team">Team</Link>
                   </li>
                   <li>
-                    <Link to="/blogs">Present Student</Link>
+                    <Link to="/member">Present Student</Link>
                   </li>
                   <li>
-                    <Link to="/blogs">Requested User</Link>
+                    <Link to="/userrequest">Requested User</Link>
                   </li>
                 </ol>
               </div>
@@ -185,7 +185,7 @@ export default function DefaultLayout() {
               <button onClick={onLogout} className=' text-red-700'>Logout</button>
             </div>
           </header>
-          <main className='m-3 mt-7 p-4 rounded-sm h-full bg-blue-100'>
+          <main className='m-3 mt-3 p-4 rounded-sm h-full  bg-blue-100'>
 
             <Outlet />
           </main>

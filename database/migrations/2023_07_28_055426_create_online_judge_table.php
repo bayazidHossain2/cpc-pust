@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOnlineJudges extends Migration
+class CreateOnlineJudgeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateOnlineJudges extends Migration
      */
     public function up()
     {
-        Schema::create('online_judges', function (Blueprint $table) {
+        Schema::create('online_judge', function (Blueprint $table) {
             $table->id('judge_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
@@ -31,6 +31,6 @@ class CreateOnlineJudges extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('online_judges');
+        Schema::dropIfExists('online_judge');
     }
 }

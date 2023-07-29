@@ -9,7 +9,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
 use App\Models\User;
 use Auth;
-
+use Illuminate\Support\Str;
+use App\Http\Controllers\MailController;
 
 
 class AuthController extends Controller
@@ -21,29 +22,35 @@ class AuthController extends Controller
         
         /** @var User $user */
         
+        // $user = User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'department' => $data['department'],
+        //     's_id' => $data['sid'],
+        //     'session' => $data['session'],
+        //     'password' => $data['password'],
+        // ]);
+
+        $v_code = rand(100000,999999);
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'department' => $data['department'],
-            'sid' => $data['sid'],
+            's_id' => $data['sid'],
             'session' => $data['session'],
             'password' => $data['password'],
+            'v_code' => $v_code,
         ]);
-        $token = $user->createToken('main')->plainTextToken;
-        // $user = User::create([
-        //         'name' => 'demo',
-        //         'email' => 'demo@demo.d',
-        //         'department' => 'dept',
-        //         'sid' => '123456',
-        //         'session' => '1234567',
-        //         'password' => 'passw',
-        //     ]);
+        $token = Str::random(16);
         // $user = 'str';
         // $token = 'token';
+        // MailController::email_varification($v_code,$data['email']);
         
         return response([
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'v_code' => $v_code
         ]);
     }
     

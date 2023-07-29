@@ -25,13 +25,17 @@ export default function Login() {
            </div>
           </div>
           <div className="mt-1 text-right">
+            <Link className=" hover:text-blue-500 pt-2.5 text-sm leading-5 rounded-md font-semibold text-blue-300 cursor-pointer" to="/mail-varify">Goto mail varification.
+            </Link>
+          </div>
+          <div className="mt-1 text-right">
             <Link className=" hover:text-blue-500 pt-2.5 text-sm leading-5 rounded-md font-semibold text-blue-300 cursor-pointer" to="/signup">New User? Create an account.
             </Link>
           </div>
           <div className="mt-6 text-right">
-            <button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white">
+            <div className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white">
               Sign in
-            </button>
+            </div>
           </div>
         </form>
       </div>

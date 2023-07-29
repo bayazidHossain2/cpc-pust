@@ -10,6 +10,11 @@ import Signup from "./views/user/auth/signup";
 import Events from "./views/admin/events";
 import Blogs from "./views/admin/blogs";
 import Notify from "./views/admin/notify";
+import Advisor from "./views/admin/user/advisor";
+import Team from "./views/admin/user/team";
+import Member from "./views/admin/user/member";
+import Request from "./views/admin/user/request";
+import MailVarify from "./views/user/auth/mailVarify";
 
 
 const router = createBrowserRouter([
@@ -21,6 +26,23 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Navigate to="/users" />
+            },
+            
+            {
+                path: '/advisor',
+                element: <Advisor />
+            },
+            {
+                path: '/team',
+                element: <Team />
+            },
+            {
+                path: '/member',
+                element: <Member />
+            },
+            {
+                path: '/userrequest',
+                element: <Request />
             },
 
             {
@@ -58,6 +80,11 @@ const router = createBrowserRouter([
             {
                 path: '/signup',
                 element: <Signup />
+            },
+
+            {
+                path: '/mail-varify',
+                element: <MailVarify />
             },
         ]
 
