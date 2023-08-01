@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MailController;
 use App\Models\User;
-
 use App\Http\Controllers\Api\AuthController;
 
+
+use App\Mail\varificationSuccessMail;
 // use App\Http\Controllers\MailController;
 
 /*
@@ -25,20 +26,35 @@ Route::get('/', function () {
 
 
 Route::get('/ff', function () {
-/** @var User $user */
-    $user = User::create([
-        'name' => 'name',
-        'email' => '$data',
-        'department' =>' $data',
-        's_id' => '1234',
-        'session' => '$data[]',
-        'password' => '$data[]',
-        'v_code' => '123412',
-    ]);
 
-    echo $user;
+
+    $credentials = [
+        'email' => 'bh.190140@s.pust.ac.bd',
+        'password' => 'asdff'
+    ];
+
+        if(!Auth::attempt($credentials)){
+            echo 'Provided email or password is incorrect';
+        }
+
+         /** @var \App\Models\User $user */
+         $user = Auth::user();
+        //  $token = $user->createToken('main')->plainTextToken;
+
+         echo $user;
+
+        
+
+         echo $user;
+        //  echo $token;
 });
 
 Route::get('/vmail', function(){
-    MailController::email_varification('123123','bayazid204@gmail.com');
+    $mail = 'bayazid204@gmail.com';
+    $mailData = [
+        'title' => 'Varification Mail from CPC, PUST',
+    ];
+
+    Mail::to($mail)->send(new varificationSuccessMail($mailData));
+    dd('Mail send successfully.');
 });

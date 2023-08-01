@@ -26,5 +26,7 @@ Route::post('/signup', [AuthController::class,'signup']);
 Route::post('/login', [AuthController::class,'login']);
 Route::post('/logout', [AuthController::class,'logout']);
 
+Route::post('/varify', [AuthController::class, 'varify']);
 
 Route::post('/send-mail',[MailController::class,'email_varification']);
+Route::post('/send-mail-success',[MailController::class,'email_varification_success']);

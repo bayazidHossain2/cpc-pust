@@ -38,7 +38,6 @@ export default function Signup() {
         console.log(data.v_code);
         // setUser(data.user)
         // setToken(data.token)
-
         const load = {
           code: data.v_code,
           mail: emailRef.current.value,

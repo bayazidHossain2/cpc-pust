@@ -39,7 +39,7 @@ class AuthController extends Controller
             'department' => $data['department'],
             's_id' => $data['sid'],
             'session' => $data['session'],
-            'password' => $data['password'],
+            'password' => bcrypt($data['password']),
             'v_code' => $v_code,
         ]);
         $token = Str::random(16);
@@ -61,17 +61,68 @@ class AuthController extends Controller
         if(!Auth::attempt($credentials)){
             return response([
                 'message' => 'Provided email or password is incorrect'
-            ]);
+            ],422);
         }
 
          /** @var \App\Models\User $user */
          $user = Auth::user();
-         $token = $user->createToken('main')->plainTextToken;
+        //  $token = $user->createToken('main')->plainTextToken;
+         $token = Str::random(16);
+
+         if($user['v_code'] != null){
+            return response([
+                'message' => 'Your email is not varified. First farify your email.'
+            ],422);
+         }
+
+         if($user['cpc_position']== null){
+            return response([
+                'message' => 'Your are not approved by admin. Wait for admin approval.'
+            ],422);
+         }
 
          return response([
             'user' => $user,
             'token' => $token
         ]);
+    }
+
+    public function varify(Request $request){
+        $credentials = [
+            'email' => $request['email'],
+            'password' => $request['password'],
+        ];
+        if(!Auth::attempt($credentials)){
+            return response([
+                'message' => 'Provided email or password is incorrect'
+            ],422);
+        }
+
+         /** @var \App\Models\User $user */
+         $user = Auth::user();
+         $token = Str::random(16);
+         // $user = 'str';
+         // $token = 'token';
+         // MailController::email_varification($v_code,$data['email']);
+         if($request['v_code'] === null){
+            return response([
+                'message' => 'Empty Varification Code.'
+            ],422);
+         }
+         
+         if($user['v_code'] == $request['v_code']){
+            $user->update(['v_code' => null]);
+            return response([
+                'user' => $user,
+                'token' => $token,
+                'cd' => $request['v_code'],
+            ]);
+         }else{
+            return response([
+                'message' => 'Invalid Varification Code.',
+                'cd' => $request['v_code'],
+            ],422);
+         }
     }
     
     public function logout(Request $request){
