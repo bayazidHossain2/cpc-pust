@@ -1,294 +1,147 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import axiosClient from '../../../axios-client';
 
 export default function Request() {
+
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const positionRef = useRef();
+    
+  const [deptName, setDeptName] = useState(null);
+
+    useEffect(() => {
+        getUsers();
+    }, [])
+
+
+    const getUsers = () => {
+        setLoading(true)
+        axiosClient.get('/requested-user')
+            .then(({ data }) => {
+                console.log('data is : ');
+                console.log(data);
+                setUsers(data);
+                setLoading(false)
+            })
+            .catch(err => {
+                console.log('users request error: ');
+                console.log(err);
+                response = err.response;
+                console.log(response);
+                setLoading(false)
+            })
+        axiosClient.get('/get-dept')
+            .then(({data}) => {
+                console.log(data);
+            })
+            .catch(err => {
+                console.log('get dept error');
+                console.log(err.response);
+            })
+    }
+
+    const onApprove = (u) => {
+        console.log('ki je print hoy bujhi na');
+        console.log(u.s_id);
+        // console.log(positionRef);
+        // console.log(positionRef.current);
+        console.log(positionRef.current.value);
+    }
+
+    const onReject = (u) => {
+        if (!window.confirm("Are you Sure you want to reject this user?")) {
+            return;
+        }
+        setLoading(true);
+
+        axiosClient.delete(`/users/${u.id}`)
+            .then(() => {
+                // Todo show notification
+                getUsers();
+                load = {
+                    mail: u.email
+                }
+                axiosClient.post('/send-mail-rejected', load)
+                    .then(() => {
+                        console.log('Mail send successfully');
+                        setLoading(false);
+                    })
+                    .catch(err => {
+                        console.log("send-mail err :" + err);
+                        setLoading(false);
+                    })
+
+            })
+    }
+
+
+
     return (
         <div>
             {/* Heading */}
             <div className="">
                 <h2 className='text-2xl font-semibold text-blue-900'>Member Request</h2>
             </div>
+
+
+
             {/* members list */}
             <div className="overflow-auto flex flex-col mt-4 h-96">
-                <div className="grid grid-cols-1 sm:grid-cols-2">
-                    <div className=' flex flex-col m-2 bg-blue-50 p-2 rounded-md'>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                            <p className=' text-blue-700'>190140</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                            <p className=' text-blue-700'>Bayazid Hossain</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                            <p className=' text-blue-700'>bh.190140@s.pust.ac.bd</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Varifyed email:</h3>
-                            <p className=' text-blue-700'>No</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                            <p className=' text-blue-700'>Computer Science and Engineering</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                            <p className=' text-blue-700'>2018-19</p>
-                        </div>
-                        <div className='flex flex-row space-x-4 my-3 justify-end'>
-                            <div className=" bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
-                            <div className=" bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
-                        </div>
-                    </div>
+                {loading
+                    ? <div className=" flex m-auto text-blue-800 text-5xl">Loading...</div>
+                    :
+                    <div className="grid grid-cols-1 sm:grid-cols-2">
+                        {
+                            users.map(u => (
+                                <div className=' flex flex-col m-2 bg-blue-50 p-2 rounded-md'>
+                                    <div className="flex flex-row items-center">
+                                        <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
+                                        <p className=' text-blue-700'>{u.s_id}</p>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
+                                        <p className=' text-blue-700'>{u.name}</p>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
+                                        <p className=' text-blue-700'>{u.email}</p>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <h3 className='font-semibold text-blue-700 mr-2'>Varifyed at:</h3>
+                                        <p className=' text-blue-700'>{u.email_varified_at ? u.email_varified_at : "Not Varified"}</p>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <h3 className='font-semibold text-blue-700 mr-2'>Requested at:</h3>
+                                        <p className=' text-blue-700'>{u.created_at}</p>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
+                                        <p className=' text-blue-700'>{u.department}</p>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
+                                        <p className=' text-blue-700'>{u.session}</p>
+                                    </div>
+                                    <div className="flex flex-row items-center">
+                                        <h3 className='font-semibold text-blue-700 mr-2'>CPC Position:</h3>
+                                        <select ref={positionRef} name="position" id="position" className=' text-blue-700 p-2 mx-3 w-1/2'>
+                                            <option value="">chose</option>
+                                            <option id='1' value="Member">Member</option>
+                                            <option id='2' value="Team">Team</option>
+                                            <option id='3' value="Advisor">Advisor</option>
+                                        </select>
+                                    </div>
 
-                    <div className=' flex flex-col m-2 bg-blue-50 p-2 rounded-md'>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                            <p className=' text-blue-700'>190140</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                            <p className=' text-blue-700'>Bayazid Hossain</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                            <p className=' text-blue-700'>bh.190140@s.pust.ac.bd</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Varifyed email:</h3>
-                            <p className=' text-blue-700'>No</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                            <p className=' text-blue-700'>Computer Science and Engineering</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                            <p className=' text-blue-700'>2018-19</p>
-                        </div>
-                        <div className='flex flex-row space-x-4 my-3 justify-end'>
-                            <div className=" bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
-                            <div className=" bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
-                        </div>
-                    </div>
+                                    <div className='flex flex-row space-x-4 my-3 justify-end'>
+                                        <div onClick={ev => onApprove(u)} className=" cursor-pointer bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
+                                        <div onClick={ev => onReject(u)} className="cursor-pointer bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
+                                    </div>
+                                </div>
+                            ))
+                        }
 
-                    <div className=' flex flex-col m-2 bg-blue-50 p-2 rounded-md'>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                            <p className=' text-blue-700'>190140</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                            <p className=' text-blue-700'>Bayazid Hossain</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                            <p className=' text-blue-700'>bh.190140@s.pust.ac.bd</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Varifyed email:</h3>
-                            <p className=' text-blue-700'>No</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                            <p className=' text-blue-700'>Computer Science and Engineering</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                            <p className=' text-blue-700'>2018-19</p>
-                        </div>
-                        <div className='flex flex-row space-x-4 my-3 justify-end'>
-                            <div className=" bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
-                            <div className=" bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
-                        </div>
                     </div>
-
-                    <div className=' flex flex-col m-2 bg-blue-50 p-2 rounded-md'>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                            <p className=' text-blue-700'>190140</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                            <p className=' text-blue-700'>Bayazid Hossain</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                            <p className=' text-blue-700'>bh.190140@s.pust.ac.bd</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Varifyed email:</h3>
-                            <p className=' text-blue-700'>No</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                            <p className=' text-blue-700'>Computer Science and Engineering</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                            <p className=' text-blue-700'>2018-19</p>
-                        </div>
-                        <div className='flex flex-row space-x-4 my-3 justify-end'>
-                            <div className=" bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
-                            <div className=" bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
-                        </div>
-                    </div>
-
-                    <div className=' flex flex-col m-2 bg-blue-50 p-2 rounded-md'>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                            <p className=' text-blue-700'>190140</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                            <p className=' text-blue-700'>Bayazid Hossain</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                            <p className=' text-blue-700'>bh.190140@s.pust.ac.bd</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Varifyed email:</h3>
-                            <p className=' text-blue-700'>No</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                            <p className=' text-blue-700'>Computer Science and Engineering</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                            <p className=' text-blue-700'>2018-19</p>
-                        </div>
-                        <div className='flex flex-row space-x-4 my-3 justify-end'>
-                            <div className=" bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
-                            <div className=" bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
-                        </div>
-                    </div>
-
-                    <div className=' flex flex-col bg-blue-50 p-2 rounded-md'>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                            <p className=' text-blue-700'>190140</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                            <p className=' text-blue-700'>Bayazid Hossain</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                            <p className=' text-blue-700'>bh.190140@s.pust.ac.bd</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Varifyed email:</h3>
-                            <p className=' text-blue-700'>No</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                            <p className=' text-blue-700'>Computer Science and Engineering</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                            <p className=' text-blue-700'>2018-19</p>
-                        </div>
-                        <div className='flex flex-row space-x-4 my-3 justify-end'>
-                            <div className=" bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
-                            <div className=" bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
-                        </div>
-                    </div>
-
-                    <div className=' flex flex-col bg-blue-50 p-2 rounded-md'>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                            <p className=' text-blue-700'>190140</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                            <p className=' text-blue-700'>Bayazid Hossain</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                            <p className=' text-blue-700'>bh.190140@s.pust.ac.bd</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Varifyed email:</h3>
-                            <p className=' text-blue-700'>No</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                            <p className=' text-blue-700'>Computer Science and Engineering</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                            <p className=' text-blue-700'>2018-19</p>
-                        </div>
-                        <div className='flex flex-row space-x-4 my-3 justify-end'>
-                            <div className=" bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
-                            <div className=" bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
-                        </div>
-                    </div>
-
-                    <div className=' flex flex-col bg-blue-50 p-2 rounded-md'>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                            <p className=' text-blue-700'>190140</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                            <p className=' text-blue-700'>Bayazid Hossain</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                            <p className=' text-blue-700'>bh.190140@s.pust.ac.bd</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Varifyed email:</h3>
-                            <p className=' text-blue-700'>No</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                            <p className=' text-blue-700'>Computer Science and Engineering</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                            <p className=' text-blue-700'>2018-19</p>
-                        </div>
-                        <div className='flex flex-row space-x-4 my-3 justify-end'>
-                            <div className=" bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
-                            <div className=" bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
-                        </div>
-                    </div>
-
-                    <div className=' flex flex-col bg-blue-50 p-2 rounded-md'>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                            <p className=' text-blue-700'>190140</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                            <p className=' text-blue-700'>Bayazid Hossain</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                            <p className=' text-blue-700'>bh.190140@s.pust.ac.bd</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Varifyed email:</h3>
-                            <p className=' text-blue-700'>No</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                            <p className=' text-blue-700'>Computer Science and Engineering</p>
-                        </div>
-                        <div className="flex flex-row items-center">
-                            <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                            <p className=' text-blue-700'>2018-19</p>
-                        </div>
-                        <div className='flex flex-row space-x-4 my-3 justify-end'>
-                            <div className=" bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
-                            <div className=" bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     )

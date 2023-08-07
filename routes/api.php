@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,16 +18,40 @@ use App\Http\Controllers\MailController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function(){
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::post('/logout', [AuthController::class,'logout']);
+
+    Route::get('/requested-user', function () {
+    
+        $users = DB::table('users')
+            ->where('cpc_position','=',null)
+            ->orderBy('id', 'desc')
+            ->get();
+    
+        return $users;
+    });
 });
+
+Route::apiResource('/users', UserController::class);
 
 
 Route::post('/signup', [AuthController::class,'signup']);
+
+Route::get('/dept-name', function () {
+    
+    $users = DB::table('dept_name')
+        ->orderBy('id', 'asc')
+        ->get();
+
+    return $users;
+});
 Route::post('/login', [AuthController::class,'login']);
-Route::post('/logout', [AuthController::class,'logout']);
 
 Route::post('/varify', [AuthController::class, 'varify']);
 
 Route::post('/send-mail',[MailController::class,'email_varification']);
 Route::post('/send-mail-success',[MailController::class,'email_varification_success']);
+Route::post('/send-mail-rejected',[MailController::class,'signup_rejected_mail']);

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom';
 import axiosClient from '../../../axios-client';
 import { useStateContext } from '../../../contexts/contextProvider';
@@ -17,6 +17,17 @@ export default function Signup() {
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
   const [mailVarify, setMailVarify] = useState(false);
+  const [deptName, setDeptName] = useState(null);
+
+  useEffect(() => {
+    axiosClient.get('/dept-name')
+    .then(({data}) => {
+      //setUser(data);
+      console.log('data added');
+      console.log(data);
+      setDeptName(data);
+    })
+  }, [])
 
   const submit = () => {
     const payload = {
@@ -30,25 +41,13 @@ export default function Signup() {
     }
     setLoading(true);
     setErrors(null);
+
     axiosClient.post('/signup', payload)
       .then(({ data }) => {
         console.log('-----------------')
         console.log(data.user);
         console.log(data.token);
         console.log(data.v_code);
-        // setUser(data.user)
-        // setToken(data.token)
-        const load = {
-          code: data.v_code,
-          mail: emailRef.current.value,
-        }
-        axiosClient.post('/send-mail', load)
-        .then(() => {
-          console.log('Mail send successfully');
-        })
-        .catch(err => {
-          console.log("send-mail err :"+err);
-        })
 
         setLoading(false);
         setMailVarify(true);
@@ -113,9 +112,12 @@ export default function Signup() {
           <div className="mt-1">
             <select ref={departmentRef} name="dept" id="dept" className=' px-3 py-2 bg-white border shadow-sm border-slate-300 text-slate-500 focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1' >
               <option className='' value="">Chose your Department</option>
-              <option id='1' value="Computer Science and Engineering">Computer Science and Engineering</option>
-              <option id='2' value="Electrical and Electronic Engineering">Electrical and Electronic Engineering</option>
-              <option id='3' value="Information and Communication Engineering">Information and Communication Engineering</option>
+              {deptName&&
+                deptName.map(u => (
+                  <option id={u.id} value={u.dept}>{u.id}. {u.dept}</option>
+              
+                ))
+              }
             </select>
           </div>
         </div>

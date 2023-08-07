@@ -42,15 +42,14 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
             'v_code' => $v_code,
         ]);
-        $token = Str::random(16);
+        $token = $user->createToken('main')->plainTextToken;
         // $user = 'str';
         // $token = 'token';
-        // MailController::email_varification($v_code,$data['email']);
+        MailController::email_varification($v_code,$data['email']);
         
         return response([
             'user' => $user,
             'token' => $token,
-            'v_code' => $v_code
         ]);
     }
     
@@ -66,8 +65,8 @@ class AuthController extends Controller
 
          /** @var \App\Models\User $user */
          $user = Auth::user();
-        //  $token = $user->createToken('main')->plainTextToken;
-         $token = Str::random(16);
+         $token = $user->createToken('main')->plainTextToken;
+         
 
          if($user['v_code'] != null){
             return response([
@@ -75,11 +74,13 @@ class AuthController extends Controller
             ],422);
          }
 
-         if($user['cpc_position']== null){
+         if($user['cpc_position'] == null){
             return response([
                 'message' => 'Your are not approved by admin. Wait for admin approval.'
             ],422);
          }
+
+        //  $user->update(['remember_token' => $token]);
 
          return response([
             'user' => $user,
@@ -100,7 +101,6 @@ class AuthController extends Controller
 
          /** @var \App\Models\User $user */
          $user = Auth::user();
-         $token = Str::random(16);
          // $user = 'str';
          // $token = 'token';
          // MailController::email_varification($v_code,$data['email']);
@@ -109,13 +109,20 @@ class AuthController extends Controller
                 'message' => 'Empty Varification Code.'
             ],422);
          }
+         if($user['v_code'] === null){
+            return response([
+                'message' => 'This Email already Varified.'
+            ],422);
+         }
          
          if($user['v_code'] == $request['v_code']){
-            $user->update(['v_code' => null]);
+            $c_time = date('Y-m-d H:i:s');
+            $user->update(['v_code' => null,'email_verified_at' => $c_time]);
+
+            MailController::email_varification_success($user['email']);
             return response([
-                'user' => $user,
-                'token' => $token,
-                'cd' => $request['v_code'],
+                'user' => 'user',
+                'token' => 'token',
             ]);
          }else{
             return response([
@@ -128,7 +135,7 @@ class AuthController extends Controller
     public function logout(Request $request){
         /** @var \App\Models\User $user */
         $user = $request->user();
-        $user->currentAccessToken()->delete();
+        $user->update(['remember_token' => null]);
 
         return response('', 204);
     }

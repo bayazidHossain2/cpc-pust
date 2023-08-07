@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Navigate, Outlet } from 'react-router-dom'
 import { useStateContext } from '../contexts/contextProvider'
 import menue_btn_logo from "../assets/images/menue_btn_logo.webp";
+import axiosClient from '../axios-client';
+
 
 export default function DefaultLayout() {
 
 
-  const { user, token } = useStateContext()
+  const { user, token, setUser, setToken } = useStateContext()
   const [bottomMenue, setBottomMenue] = useState(false);
   const [usersActive, setUserActive] = useState(false);
   const [eventsActive, setEventsActive] = useState(false);
@@ -14,14 +16,40 @@ export default function DefaultLayout() {
   const [mailActive, setMailActive] = useState(false)
 
 
+  useEffect(() => {
+    axiosClient.get('/user')
+    .then(({data}) => {
+      setUser(data);
+      console.log('data added');
+    })
+  }, [])
 
   if (!token) {
     return <Navigate to="/login" />
   }
 
+ 
+
   const onLogout = (ev) => {
     ev.preventDefault()
+
+    console.log('logout click');
+
+    axiosClient.post('/logout')
+    .then(() => {
+      setUser({})
+      setToken(null)
+      console.log('logout Success');
+    })
+    .catch(err => {
+      response = err.response;
+      console.log('log out fail');
+      console.log(response);
+    })
   }
+
+
+ 
 
   const menueToggle = (ev) => {
 
@@ -176,15 +204,18 @@ export default function DefaultLayout() {
         </aside>
 
         <div className="content flex flex-col bg-blue-50 w-full">
+
+          {/* Heading section */}
           <header className=' bg-blue-300 m-3 p-6 rounded-lg py-6 flex flex-row justify-between items-center'>
             <div>
               <h3 className=' text-xl font-bold text-blue-950'>Heding Text</h3>
             </div>
             <div className='flex flex-col'>
               <h5 className=' text-blue-950 font-semibold'>{user.name}</h5>
-              <button onClick={onLogout} className=' text-red-700'>Logout</button>
+              <button onClick={onLogout} className=' px-2 py-1 rounded-sm bg-blue-200 text-red-700'>Logout</button>
             </div>
           </header>
+          {/* Container Body section */}
           <main className='m-3 mt-3 p-4 rounded-sm h-full  bg-blue-100'>
 
             <Outlet />
