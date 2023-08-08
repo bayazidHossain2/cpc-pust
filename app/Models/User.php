@@ -25,6 +25,7 @@ class User extends Authenticatable
         'session',
         'v_code',
         'email_verified_at',
+        'cpc_position',
     ];
 
     /**

@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Mail\varificationSuccessMail;
 
 use App\Http\Resources\UserResource;
+use App\Mail\simpleMail;
 // use App\Http\Controllers\MailController;
 
 /*
@@ -28,10 +29,7 @@ Route::get('/', function () {
 
 
 Route::get('/ff', function () {
-    
-    MailController::email_varification('123123','bh.190140@s.pust.ac.bd');
-
-    echo 'Mail send successfully';
+    MailController::signup_approve_mail('bh.190140@s.pust.ac.bd');
 });
 
 Route::get('/vmail', function(){

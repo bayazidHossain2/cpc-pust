@@ -5,9 +5,7 @@ export default function Request() {
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
-    const positionRef = useRef();
-    
-  const [deptName, setDeptName] = useState(null);
+
 
     useEffect(() => {
         getUsers();
@@ -30,22 +28,26 @@ export default function Request() {
                 console.log(response);
                 setLoading(false)
             })
-        axiosClient.get('/get-dept')
-            .then(({data}) => {
-                console.log(data);
-            })
-            .catch(err => {
-                console.log('get dept error');
-                console.log(err.response);
-            })
     }
 
-    const onApprove = (u) => {
+    const onApprove = (u, position) => {
         console.log('ki je print hoy bujhi na');
         console.log(u.s_id);
         // console.log(positionRef);
         // console.log(positionRef.current);
-        console.log(positionRef.current.value);
+        console.log(position);
+        setLoading(true);
+        const payload = {
+            id: u.id,
+            email: u.email,
+            position: position
+        }
+        axiosClient.post('/approve-user',payload)
+        .then((data) => {
+            console.log('approve response');
+            console.log(data);
+            getUsers();
+        })
     }
 
     const onReject = (u) => {
@@ -58,7 +60,7 @@ export default function Request() {
             .then(() => {
                 // Todo show notification
                 getUsers();
-                load = {
+                const load = {
                     mail: u.email
                 }
                 axiosClient.post('/send-mail-rejected', load)
@@ -122,18 +124,17 @@ export default function Request() {
                                         <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
                                         <p className=' text-blue-700'>{u.session}</p>
                                     </div>
-                                    <div className="flex flex-row items-center">
-                                        <h3 className='font-semibold text-blue-700 mr-2'>CPC Position:</h3>
-                                        <select ref={positionRef} name="position" id="position" className=' text-blue-700 p-2 mx-3 w-1/2'>
-                                            <option value="">chose</option>
-                                            <option id='1' value="Member">Member</option>
-                                            <option id='2' value="Team">Team</option>
-                                            <option id='3' value="Advisor">Advisor</option>
-                                        </select>
+                                    <div className="flex flex-row justify-between items-center mt-5">
+                                        <h3 className='font-semibold text-blue-700 mr-2'>Approve as:</h3>
+                                        <div className="flex flex-col space-y-2">
+                                            <div onClick={ev => onApprove(u, 'Advisor')} className=" cursor-pointer bg-green-400 text-white px-2 py-1 font-bold rounded-lg">Advisor</div>
+                                            <div onClick={ev => onApprove(u, 'Team')} className=" cursor-pointer bg-green-500 text-white px-2 py-1 font-bold rounded-lg">Team</div>
+                                            <div onClick={ev => onApprove(u, 'Member')} className=" cursor-pointer bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Member</div>
+
+                                        </div>
                                     </div>
 
                                     <div className='flex flex-row space-x-4 my-3 justify-end'>
-                                        <div onClick={ev => onApprove(u)} className=" cursor-pointer bg-green-600 text-white px-2 py-1 font-bold rounded-lg">Approve</div>
                                         <div onClick={ev => onReject(u)} className="cursor-pointer bg-red-600 text-white px-2 py-1 font-bold rounded-lg">Reject</div>
                                     </div>
                                 </div>

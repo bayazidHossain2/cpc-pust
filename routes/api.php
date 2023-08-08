@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 
+use App\Models\User;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Api\UserController;
 
@@ -32,6 +33,12 @@ Route::middleware('auth:sanctum')->group(function(){
             ->get();
     
         return $users;
+    });
+
+    Route::post('/approve-user', function(Request $request){
+        $user = User::find($request['id']);
+        $user->fill(['cpc_position'=>$request['position']])->save();
+        MailController::signup_approve_mail($request['email']);
     });
 });
 

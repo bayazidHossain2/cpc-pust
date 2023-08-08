@@ -31,6 +31,6 @@ class simpleMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.verificationMail');
+        return $this->view('emails.simpleMail');
     }
 }

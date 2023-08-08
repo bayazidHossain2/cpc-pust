@@ -7,10 +7,10 @@
 </head>
 <body>
     <h1>{{$mailData['title']}}</h1>
-    <p>{{$mailData['code']}}</p>
 
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis modi ut sunt debitis iste porro aliquam magni, deleniti quos numquam sed incidunt magnam laudantium molestiae ipsam facilis facere repudiandae ducimus?</p>
+    <p>{{$mailData['body']}}</p>
 
     <p>Thank you.</p>
+    <p>Stay with CPC, PUST.</p>
 </body>
 </html>
