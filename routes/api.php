@@ -35,10 +35,76 @@ Route::middleware('auth:sanctum')->group(function(){
         return $users;
     });
 
+    Route::get('/team-user', function () {
+    
+        $users = DB::table('users')
+            ->where('cpc_position','=','Team')
+            ->orderBy('id', 'desc')
+            ->get();
+    
+        return $users;
+    });
+    Route::get('/advisor-user', function () {
+    
+        $users = DB::table('users')
+            ->where('cpc_position','=','Advisor')
+            ->orderBy('id', 'desc')
+            ->get();
+    
+        return $users;
+    });
+
+    Route::get('/member-user', function () {
+    
+        $users = DB::table('users')
+            ->where('cpc_position','!=','Advisor')
+            ->orderBy('id', 'desc')
+            ->get();
+    
+        return $users;
+        
+        // ->where('s_id','NOT LIKE','19____')
+    });
+    Route::post('/member-user-query', function (Request $request) {
+        $yy = $request['year'];
+        $dd = $request['dept'];
+        $ss = $request['serial'];
+        $qq = '';
+        if($yy == null){
+            $qq = '__';
+        }else{
+            $qq = $yy;
+        }
+        if($dd == null){
+            $qq = $qq.'__';
+        }else{
+            $qq = $qq.$dd;
+        }
+        if($ss == null){
+            $qq = $qq.'__';
+        }else{
+            $qq = $qq.$ss;
+        }
+
+        $users = DB::table('users')
+            ->where('cpc_position','!=','Advisor')
+            ->where('s_id','LIKE',$qq)
+            ->orderBy('id', 'desc')
+            ->get();
+    
+        return $users;
+        
+    });
+
     Route::post('/approve-user', function(Request $request){
         $user = User::find($request['id']);
         $user->fill(['cpc_position'=>$request['position']])->save();
         MailController::signup_approve_mail($request['email']);
+    });
+    Route::post('/remove-from-team', function(Request $request){
+        $user = User::find($request['id']);
+        $user->fill(['cpc_position'=>$request['position']])->save();
+        // MailController::signup_approve_mail($request['email']);
     });
 });
 

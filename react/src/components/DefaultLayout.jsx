@@ -128,7 +128,7 @@ export default function DefaultLayout() {
                     <Link to="/team">Team</Link>
                   </li>
                   <li>
-                    <Link to="/member">Present Student</Link>
+                    <Link to="/member">Member</Link>
                   </li>
                   <li>
                     <Link to="/userrequest">Requested User</Link>
