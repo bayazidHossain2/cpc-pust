@@ -42,12 +42,12 @@ export default function Request() {
             email: u.email,
             position: position
         }
-        axiosClient.post('/approve-user',payload)
-        .then((data) => {
-            console.log('approve response');
-            console.log(data);
-            getUsers();
-        })
+        axiosClient.post('/approve-user', payload)
+            .then((data) => {
+                console.log('approve response');
+                console.log(data);
+                getUsers();
+            })
     }
 
     const onReject = (u) => {
@@ -82,7 +82,14 @@ export default function Request() {
         <div>
             {/* Heading */}
             <div className="">
-                <h2 className='text-2xl font-semibold text-blue-900'>Member Request</h2>
+                <h2 className='text-2xl font-semibold text-blue-900'>
+
+                    <div className="flex flex-row">
+                        <div className="">Member Request</div>
+                        {users && <div className="">({users.length})</div>
+                        }
+                    </div>
+                </h2>
             </div>
 
 

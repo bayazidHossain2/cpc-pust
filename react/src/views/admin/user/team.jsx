@@ -39,7 +39,7 @@ export default function Team() {
             id: u.id,
             position: 'Member'
         }
-        axiosClient.post(`/remove-from-team`,load)
+        axiosClient.post(`/remove-from-team`, load)
             .then(() => {
                 // Todo show notification
                 getUsers();
@@ -52,7 +52,14 @@ export default function Team() {
         <div>
             {/* Heading */}
             <div className="">
-                <h2 className='text-2xl font-semibold text-blue-900'>Team Members</h2>
+                <h2 className='text-2xl font-semibold text-blue-900'>
+
+                    <div className="flex flex-row">
+                        <div className="">Team Members</div>
+                        {users && <div className="">({users.length})</div>
+                        }
+                    </div>
+                </h2>
             </div>
 
 

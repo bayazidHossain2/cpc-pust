@@ -66,7 +66,7 @@ export default function MailVarify() {
       }
       <div className="">
         {varifySucc
-          ? <div className=" bg-pink-300 p-5 rounded-lg">
+          ? <div className=" bg-green-300 p-5 rounded-lg">
             <p> Your Signup application and Mail vairfication done successfully. Now wait at least 5-6 Hour to admin approval.</p>
 
 

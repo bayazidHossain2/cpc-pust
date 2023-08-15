@@ -4,7 +4,7 @@ import { useStateContext } from '../contexts/contextProvider'
 
 export default function GuestLayout() {
 
-  const [box, setBox] = useState(true);
+  const [box, setBox] = useState(false);
 
   const closeBox = () => {
     setBox(false);
@@ -17,7 +17,7 @@ export default function GuestLayout() {
 
   return (
     <div>
-      <div className=" relative">
+      <div className="relative">
         <div className={box ? " opacity-50 pointer-events-none cursor-default" : " bg-stone-200"}>
 
           <header className="h-16 bg-pink-50">This is header</header>

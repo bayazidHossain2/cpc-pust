@@ -15,6 +15,7 @@ import Team from "./views/admin/user/team";
 import Member from "./views/admin/user/member";
 import Request from "./views/admin/user/request";
 import MailVarify from "./views/user/auth/mailVarify";
+import NotifyViaMail from "./views/admin/mail/notifyViaMail";
 
 
 const router = createBrowserRouter([
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
             {
                 path: '/notify',
                 element: <Notify />
+            },
+            {
+                path: 'notify-via-mail',
+                element: <NotifyViaMail />
             },
         ]
 

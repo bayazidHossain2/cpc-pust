@@ -30,8 +30,8 @@ export default function Advisor() {
             })
     }
 
-    const onReject = (u) => {
-        if (!window.confirm("Are you Sure you want to reject this user?")) {
+    const onRemove = (u) => {
+        if (!window.confirm("Are you Sure you want to Delete this user?")) {
             return;
         }
         setLoading(true);
@@ -40,18 +40,18 @@ export default function Advisor() {
             .then(() => {
                 // Todo show notification
                 getUsers();
-                const load = {
-                    mail: u.email
-                }
-                axiosClient.post('/send-mail-rejected', load)
-                    .then(() => {
-                        console.log('Mail send successfully');
-                        setLoading(false);
-                    })
-                    .catch(err => {
-                        console.log("send-mail err :" + err);
-                        setLoading(false);
-                    })
+                // const load = {
+                //     mail: u.email
+                // }
+                // axiosClient.post('/send-mail-rejected', load)
+                //     .then(() => {
+                //         console.log('Mail send successfully');
+                //         setLoading(false);
+                //     })
+                //     .catch(err => {
+                //         console.log("send-mail err :" + err);
+                //         setLoading(false);
+                //     })
 
             })
     }
@@ -62,7 +62,14 @@ export default function Advisor() {
         <div>
             {/* Heading */}
             <div className="">
-                <h2 className='text-2xl font-semibold text-blue-900'>Advisor's</h2>
+                <h2 className='text-2xl font-semibold text-blue-900'>
+
+                    <div className="flex flex-row">
+                        <div className="">Advisor's</div>
+                        {users && <div className="">({users.length})</div>
+                        }
+                    </div>
+                </h2>
             </div>
             {/* members list */}
             <div className="overflow-auto flex flex-col mt-4 h-96">
@@ -73,7 +80,7 @@ export default function Advisor() {
                         {
                             users.map(u => (
                                 <div className=' flex flex-col m-2 bg-blue-50 p-2 rounded-md'>
-                                    
+
                                     <div className="flex flex-row items-center">
                                         <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
                                         <p className=' text-blue-700'>{u.name}</p>
@@ -86,9 +93,9 @@ export default function Advisor() {
                                         <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
                                         <p className=' text-blue-700'>{u.department}</p>
                                     </div>
-                                    
+
                                     <div className='flex flex-row space-x-4 my-3 justify-end'>
-                                        <div onClick={ev => onRemove(u)} className="cursor-pointer bg-red-600 text-white px-2 py-1 font-semibold rounded-lg">Remove from advisor</div>
+                                        <div onClick={ev => onRemove(u)} className="cursor-pointer bg-red-600 text-white px-2 py-1 font-semibold rounded-lg">Delete</div>
                                     </div>
                                 </div>
                             ))

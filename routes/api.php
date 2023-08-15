@@ -95,6 +95,38 @@ Route::middleware('auth:sanctum')->group(function(){
         return $users;
         
     });
+    // User Query common
+    Route::post('/user-query', function (Request $request) {
+        $uu = $request['u_type'];
+        $yy = $request['year'];
+        $dd = $request['dept'];
+        $ss = $request['serial'];
+        $qq = '';
+        if($yy == null){
+            $qq = '__';
+        }else{
+            $qq = $yy;
+        }
+        if($dd == null){
+            $qq = $qq.'__';
+        }else{
+            $qq = $qq.$dd;
+        }
+        if($ss == null){
+            $qq = $qq.'__';
+        }else{
+            $qq = $qq.$ss;
+        }
+
+        $users = DB::table('users')
+            ->where('cpc_position','LIKE',$uu)
+            ->where('s_id','LIKE',$qq)
+            ->orderBy('id', 'desc')
+            ->get();
+    
+        return $users;
+        
+    });
 
     Route::post('/approve-user', function(Request $request){
         $user = User::find($request['id']);

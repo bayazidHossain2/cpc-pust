@@ -73,20 +73,20 @@ export default function Member() {
         else if (year.current.value.length > 2) {
             setError('Year box contain exact 2 digit.');
         }
-        else if(dept.current.value.length > 2){
-            setError('Department box contain exact 2 digit.s'+dept.current.value+'f');
+        else if (dept.current.value.length > 2) {
+            setError('Department box contain exact 2 digit.s' + dept.current.value + 'f');
         }
-        else if(serial.current.value.length > 2){
+        else if (serial.current.value.length > 2) {
             setError('Serial box contain exact 2 digit.');
-        }else{
-            const payload ={
+        } else {
+            const payload = {
                 year: year.current.value,
                 dept: dept.current.value,
                 serial: serial.current.value
             }
 
-            axiosClient.post('/member-user-query',payload)
-                .then(({data}) => {
+            axiosClient.post('/member-user-query', payload)
+                .then(({ data }) => {
                     console.log('data is : ');
                     console.log(data);
                     setUsers(data);
@@ -100,7 +100,13 @@ export default function Member() {
         <div>
             {/* Heading */}
             <div className="flex flex-row justify-between items-center">
-                <h2 className='text-2xl font-semibold text-blue-900'>Members</h2>
+                <h2 className='text-2xl font-semibold text-blue-900'>
+                    <div className="flex flex-row">
+                        <div className="">Members</div>
+                        {users && <div className="">({users.length})</div>
+                        }
+                    </div>
+                </h2>
                 <div className="">
                     {error &&
                         <div className=" flex flex-row justify-between bg-red-500 p-3 rounded-xl">
