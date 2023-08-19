@@ -219,7 +219,7 @@ export default function DefaultLayout() {
 
         </aside>
 
-        <div className="content flex flex-col bg-blue-50 w-full">
+        <div className="content flex flex-col bg-blue-50 w-full h-[10%]">
 
           {/* Heading section */}
           <header className=' bg-blue-300 m-3 p-6 rounded-lg py-6 flex flex-row justify-between items-center'>

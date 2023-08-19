@@ -54,4 +54,15 @@ class MailController extends Controller
         //dd('Mail send successfully.');
     }
 
+    public function common_mail(Request $request){
+        $mail = $request['email'];
+        $mailData = [
+            'title' => $request['title'],
+            'body' => $request['body'],
+        ];
+
+        Mail::to($mail)->send(new simpleMail($mailData));
+        //dd('Mail send successfully.');
+    }
+
 }

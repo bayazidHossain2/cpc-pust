@@ -158,5 +158,6 @@ Route::post('/login', [AuthController::class,'login']);
 Route::post('/varify', [AuthController::class, 'varify']);
 
 Route::post('/send-mail',[MailController::class,'email_varification']);
+Route::post('/common-mail',[MailController::class,'common_mail']);
 Route::post('/send-mail-success',[MailController::class,'email_varification_success']);
 Route::post('/send-mail-rejected',[MailController::class,'signup_rejected_mail']);

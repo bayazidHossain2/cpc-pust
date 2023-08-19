@@ -4,9 +4,11 @@ import axiosClient from '../../../axios-client';
 export default function NotifyViaMail() {
 
     const [users, setUsers] = useState([]);
+    const [delivered, setDelivered] = useState(0);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [write, setWrite] = useState(false);
+    const [sending, setSending] = useState(true);
 
     const [m_title, setMTitle] = useState('');
     const [m_body, setMBody] = useState('');
@@ -61,30 +63,32 @@ export default function NotifyViaMail() {
             })
     }
 
-    const onReject = (u) => {
-        if (!window.confirm("Are you Sure you want to reject this user?")) {
+    const mailSend = () => {
+        if (!window.confirm("Are you Sure you want to Send the mail to the selected users.")) {
             return;
         }
-        setLoading(true);
-
-        axiosClient.delete(`/users/${u.id}`)
-            .then(() => {
-                // Todo show notification
-                getUsers();
-                const load = {
-                    mail: u.email
-                }
-                axiosClient.post('/send-mail-rejected', load)
-                    .then(() => {
-                        console.log('Mail send successfully');
-                        setLoading(false);
-                    })
-                    .catch(err => {
-                        console.log("send-mail err :" + err);
-                        setLoading(false);
-                    })
-
-            })
+        setSending(true);
+        toggleWrite();
+        users.map((u) => {
+            console.log(u.name);
+            const load = {
+                email: u.email,
+                title: m_title,
+                body: m_body,
+            }
+            axiosClient.post('/common-mail', load)
+                .then(() => {
+                    console.log(u.name+' -> Mail send successfully');
+                    setDelivered(delivered+1);
+                    console.log('New length : '+delivered);
+                    setSending(false);
+                })
+                .catch(err => {
+                    console.log(u.name+" -> send-mail err :" + err);
+                    setSending(false);
+                    
+                })
+        });
     }
 
     const search = () => {
@@ -138,7 +142,14 @@ export default function NotifyViaMail() {
                     ?
                     // Button to write email
                     <div onClick={toggleWrite} className=" absolute bg-blue-800/[.50] py-2 px-6 rounded-2xl cursor-pointer bottom-0 right-2 text-4xl">
-                        <h1 className='flex justify-center text-blue-800 font-bold'>+</h1>
+                        {sending
+                        ? <h3 className='flex flex-col justify-center text-blue-800 text-lg'>
+                            <div className="">Sending...</div>
+                            <div className="">{delivered}/{users.length}</div>
+                        </h3>
+                        :
+                            <h1 className='flex justify-center text-blue-800 font-bold'>+</h1>
+                        }
 
                     </div>
                     :
@@ -175,7 +186,7 @@ export default function NotifyViaMail() {
                             </div>
                             {/* Send Button */}
                             <div className="flex justify-end">
-                                <div className="cursor-pointer p-1 text-xl bg-blue-800 w-24 flex justify-center text-white font-semibold rounded-md mt-2">
+                                <div onClick={mailSend} className="cursor-pointer p-1 text-xl bg-blue-800 w-24 flex justify-center text-white font-semibold rounded-md mt-2">
                                     Send
                                 </div>
 
