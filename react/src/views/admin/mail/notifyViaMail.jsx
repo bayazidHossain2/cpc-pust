@@ -8,7 +8,7 @@ export default function NotifyViaMail() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [write, setWrite] = useState(false);
-    const [sending, setSending] = useState(true);
+    const [sending, setSending] = useState(false);
 
     const [m_title, setMTitle] = useState('');
     const [m_body, setMBody] = useState('');
@@ -19,7 +19,6 @@ export default function NotifyViaMail() {
     const userType = useRef();
     const title = useRef();
     const body = useRef();
-
 
     useEffect(() => {
         getUsers();
@@ -63,32 +62,39 @@ export default function NotifyViaMail() {
             })
     }
 
-    const mailSend = () => {
+    const mailSend = async () => {
         if (!window.confirm("Are you Sure you want to Send the mail to the selected users.")) {
             return;
         }
         setSending(true);
         toggleWrite();
-        users.map((u) => {
-            console.log(u.name);
+        setDelivered(0);
+        let c = 1;
+        for (let user of users) {
+            console.log(user.name);
             const load = {
-                email: u.email,
+                email: user.email,
                 title: m_title,
                 body: m_body,
             }
-            axiosClient.post('/common-mail', load)
-                .then(() => {
-                    console.log(u.name+' -> Mail send successfully');
-                    setDelivered(delivered+1);
-                    console.log('New length : '+delivered);
-                    setSending(false);
+
+            await axiosClient.post('/common-mail', load)
+                .then(async () => {
+                    console.log(user.name + ' -> Mail send successfully');
+                    await setDelivered(c);
+                    console.log('New length : ' + delivered);
+                    // setSending(false);
                 })
                 .catch(err => {
-                    console.log(u.name+" -> send-mail err :" + err);
-                    setSending(false);
-                    
+                    console.log(u.name + " -> send-mail err :" + err);
+
                 })
-        });
+
+            console.log('Message send success ' + c);
+            c++;
+
+        }
+        setSending(false);
     }
 
     const search = () => {
@@ -135,19 +141,19 @@ export default function NotifyViaMail() {
     }
 
     return (
-        <div >
-            <div className=" relative">
+        <div className='h-full'>
+            <div className="h-[100%] relative">
                 {/* Email Writing Section */}
                 {!write
                     ?
                     // Button to write email
                     <div onClick={toggleWrite} className=" absolute bg-blue-800/[.50] py-2 px-6 rounded-2xl cursor-pointer bottom-0 right-2 text-4xl">
                         {sending
-                        ? <h3 className='flex flex-col justify-center text-blue-800 text-lg'>
-                            <div className="">Sending...</div>
-                            <div className="">{delivered}/{users.length}</div>
-                        </h3>
-                        :
+                            ? <h3 className='flex flex-col justify-center text-blue-800 text-lg'>
+                                <div className="">Sending...</div>
+                                <div className="">{delivered}/{users.length}</div>
+                            </h3>
+                            :
                             <h1 className='flex justify-center text-blue-800 font-bold'>+</h1>
                         }
 
@@ -195,7 +201,9 @@ export default function NotifyViaMail() {
                     </div>
                 }
                 {/* Content */}
-                <div className="">
+                <div className="flex flex-col  h-[100%]">
+
+
                     {/* Heading */}
                     <div className="flex flex-row justify-between items-center">
                         <div className="flex flex-row">
@@ -228,50 +236,50 @@ export default function NotifyViaMail() {
                         </div>
                     </div>
 
-
-
                     {/* members list */}
-                    <div className="overflow-auto flex flex-col mt-4 h-80">
-                        {loading
-                            ? <div className=" flex m-auto text-blue-800 text-5xl">Loading...</div>
-                            :
-                            <div className="grid grid-cols-1 sm:grid-cols-2">
-                                {
-                                    users.map(u => (
-                                        <div className=' flex flex-col m-2 bg-blue-50 p-2 rounded-md'>
-                                            <div className="flex flex-row items-center">
-                                                <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
-                                                <p className=' text-blue-700'>{u.s_id}</p>
+                    <div className="h-[94%] bg-white">
+                        <div className="overflow-auto flex flex-col mt-4 max-h-[95%]">
+                            {loading
+                                ? <div className=" flex m-auto text-blue-800 text-5xl">Loading...</div>
+                                :
+                                <div className="grid grid-cols-1 sm:grid-cols-2">
+                                    {
+                                        users.map(u => (
+                                            <div className=' flex flex-col m-2 bg-blue-50 p-2 rounded-md'>
+                                                <div className="flex flex-row items-center">
+                                                    <h3 className='font-semibold text-blue-700 mr-2'>Student Id:</h3>
+                                                    <p className=' text-blue-700'>{u.s_id}</p>
+                                                </div>
+                                                <div className="flex flex-row items-center">
+                                                    <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
+                                                    <p className=' text-blue-700'>{u.name}</p>
+                                                </div>
+                                                <div className="flex flex-row items-center">
+                                                    <h3 className='font-semibold text-blue-700 mr-2'>CPC Position:</h3>
+                                                    <p className=' text-blue-700'>{u.cpc_position}</p>
+                                                </div>
+                                                <div className="flex flex-row items-center">
+                                                    <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
+                                                    <p className=' text-blue-700'>{u.email}</p>
+                                                </div>
+                                                <div className="flex flex-row items-center">
+                                                    <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
+                                                    <p className=' text-blue-700'>{u.department}</p>
+                                                </div>
+                                                <div className="flex flex-row items-center">
+                                                    <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
+                                                    <p className=' text-blue-700'>{u.session}</p>
+                                                </div>
+                                                <div className='flex flex-row space-x-4 my-3 justify-end'>
+                                                    <div onClick={ev => removeUserFromLIst(u.id)} className="cursor-pointer bg-orange-400 text-white px-2 py-1 font-semibold rounded-lg">Remove from this list</div>
+                                                </div>
                                             </div>
-                                            <div className="flex flex-row items-center">
-                                                <h3 className='font-semibold text-blue-700 mr-2'>Name:</h3>
-                                                <p className=' text-blue-700'>{u.name}</p>
-                                            </div>
-                                            <div className="flex flex-row items-center">
-                                                <h3 className='font-semibold text-blue-700 mr-2'>CPC Position:</h3>
-                                                <p className=' text-blue-700'>{u.cpc_position}</p>
-                                            </div>
-                                            <div className="flex flex-row items-center">
-                                                <h3 className='font-semibold text-blue-700 mr-2'>Email:</h3>
-                                                <p className=' text-blue-700'>{u.email}</p>
-                                            </div>
-                                            <div className="flex flex-row items-center">
-                                                <h3 className='font-semibold text-blue-700 mr-2'>Dept:</h3>
-                                                <p className=' text-blue-700'>{u.department}</p>
-                                            </div>
-                                            <div className="flex flex-row items-center">
-                                                <h3 className='font-semibold text-blue-700 mr-2'>Session:</h3>
-                                                <p className=' text-blue-700'>{u.session}</p>
-                                            </div>
-                                            <div className='flex flex-row space-x-4 my-3 justify-end'>
-                                                <div onClick={ev => removeUserFromLIst(u.id)} className="cursor-pointer bg-orange-400 text-white px-2 py-1 font-semibold rounded-lg">Remove from this list</div>
-                                            </div>
-                                        </div>
-                                    ))
-                                }
+                                        ))
+                                    }
 
-                            </div>
-                        }
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

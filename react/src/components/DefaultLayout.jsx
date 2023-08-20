@@ -219,7 +219,7 @@ export default function DefaultLayout() {
 
         </aside>
 
-        <div className="content flex flex-col bg-blue-50 w-full h-[10%]">
+        <div className="content flex flex-col bg-blue-50 w-full h-[100%]">
 
           {/* Heading section */}
           <header className=' bg-blue-300 m-3 p-6 rounded-lg py-6 flex flex-row justify-between items-center'>
@@ -233,8 +233,7 @@ export default function DefaultLayout() {
             </div>
           </header>
           {/* Container Body section */}
-          <main className='m-3 mt-3 p-4 rounded-sm h-full  bg-blue-100'>
-
+          <main className='m-3 mt-3 p-4 rounded-sm h-[80%] bg-blue-50'>
             <Outlet />
           </main>
         </div>

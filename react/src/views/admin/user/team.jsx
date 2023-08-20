@@ -49,7 +49,7 @@ export default function Team() {
 
 
     return (
-        <div>
+        <div className='h-full'>
             {/* Heading */}
             <div className="">
                 <h2 className='text-2xl font-semibold text-blue-900'>
@@ -65,7 +65,7 @@ export default function Team() {
 
 
             {/* members list */}
-            <div className="overflow-auto flex flex-col mt-4 h-96">
+            <div className="overflow-auto flex flex-col mt-4 h-[90%] bg-white">
                 {loading
                     ? <div className=" flex m-auto text-blue-800 text-5xl">Loading...</div>
                     :
