@@ -10,6 +10,8 @@ use App\Mail\varificationSuccessMail;
 
 use App\Http\Resources\UserResource;
 use App\Mail\simpleMail;
+use App\Models\emails;
+use App\Models\emailed_users;
 // use App\Http\Controllers\MailController;
 
 /*
@@ -29,7 +31,27 @@ Route::get('/', function () {
 
 
 Route::get('/ff', function () {
-    MailController::signup_approve_mail('bh.190140@s.pust.ac.bd');
+    $user_id = DB::table('emailed_users')
+            ->where('email_id','9')
+            ->orderBy('id', 'desc')
+            ->get();
+    echo 'Delete success';
+    echo $user_id;
+    $users = array();
+    foreach($user_id as $id){
+        print_r($id);
+        echo $id->user_id;
+        $user = User::find($id->user_id);
+        echo '<br />';
+        echo $user;
+        array_push($users, $user);
+    }
+    echo '<br />';echo '<br />';
+    // print_r($users);
+    echo gettype($user_id);
+    echo gettype((object)$users);
+    echo gettype($user_id[0]);
+    // echo (object)$users;
 });
 
 Route::get('/vmail', function(){

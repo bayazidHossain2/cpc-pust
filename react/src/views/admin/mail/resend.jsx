@@ -1,30 +1,47 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axiosClient from '../../../axios-client';
+import { useLocation } from 'react-router-dom';
 
-export default function NotifyViaMail() {
+export default function ResendMail() {
 
     const [users, setUsers] = useState([]);
     const [delivered, setDelivered] = useState(0);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [write, setWrite] = useState(false);
+    const [write, setWrite] = useState(true);
     const [sending, setSending] = useState(false);
 
     const [m_title, setMTitle] = useState('');
     const [m_body, setMBody] = useState('');
     const [emailId, setEmailid] = useState('');
-
-    const year = useRef();
-    const dept = useRef();
-    const serial = useRef();
-    const userType = useRef();
-    const title = useRef();
-    const body = useRef();
+    const location = useLocation();
 
     useEffect(() => {
-        // getUsers();
-        search();
+        getUsers();
+        // search();
+        setMBody(location.state.body);
+        setMTitle(location.state.title);
+        console.log('in resend : '+location.title);
+
     }, [])
+
+    const getUsers = () => {
+        console.log('search click');
+        console.log('with');
+        console.log(location.state);
+        console.log(location.state.id);
+        console.log(location.state.title);
+        setError(null);
+        const payload = {
+            mail_id: location.state.id
+        }
+        axiosClient.post('/mailed-user-query', payload)
+            .then(({ data }) => {
+                console.log('data is : ');
+                console.log(data);
+                setUsers(data);
+            })
+    }
 
     const removeUserFromLIst = (id) => {
         console.log(id);
@@ -47,7 +64,7 @@ export default function NotifyViaMail() {
     }
 
     const mailSend = async () => {
-        
+
         if (!window.confirm("Are you Sure you want to Send the mail to the selected users.")) {
             return;
         }
@@ -60,8 +77,8 @@ export default function NotifyViaMail() {
             body: m_body
         }
         await axiosClient.post('/common-mail-data-store', maildata)
-            .then(async ({data}) => {
-                console.log('Email Data store seccess. with id : '+data.email_id);
+            .then(async ({ data }) => {
+                console.log('Email Data store seccess. with id : ' + data.email_id);
                 await setEmailid(data.email_id);
             })
         let c = 1;
@@ -82,7 +99,7 @@ export default function NotifyViaMail() {
                     // setSending(false);
                 })
                 .catch(err => {
-                    console.log(user.name + " -> send-mail err :" + err);
+                    console.log(u.name + " -> send-mail err :" + err);
 
                 })
             console.log('Message send success ' + c);
@@ -91,36 +108,7 @@ export default function NotifyViaMail() {
         setSending(false);
     }
 
-    const search = () => {
-        console.log('search click');
-        console.log(year.current.value);
-        console.log(dept.current.value);
-        console.log(serial.current.value);
-        console.log('with');
-        setError(null);
-        if (year.current.value.length > 2) {
-            setError('Year box contain exact 2 digit.');
-        }
-        else if (dept.current.value.length > 2) {
-            setError('Department box contain exact 2 digit.s' + dept.current.value + 'f');
-        }
-        else if (serial.current.value.length > 2) {
-            setError('Serial box contain exact 2 digit.');
-        } else {
-            const payload = {
-                u_type: userType.current.value,
-                year: year.current.value,
-                dept: dept.current.value,
-                serial: serial.current.value
-            }
-            axiosClient.post('/user-query', payload)
-                .then(({ data }) => {
-                    console.log('data is : ');
-                    console.log(data);
-                    setUsers(data);
-                })
-        }
-    }
+    
 
 
     const toggleWrite = () => {
@@ -162,7 +150,7 @@ export default function NotifyViaMail() {
                                 {/* Minimize button */}
                                 <div onClick={toggleWrite} className="bg-blue-300 px-2 text-lg font-bold cursor-pointer rounded-sm">-</div>
                                 {/* cancle Button */}
-                                <div onClick={closebtn} className="bg-blue-300 px-2 text-lg text-red-600 font-bold cursor-pointer rounded-sm">x</div>
+                                {/* <div onClick={closebtn} className="bg-blue-300 px-2 text-lg text-red-600 font-bold cursor-pointer rounded-sm">x</div> */}
                             </div>
                         </div>
                         {/* Mail content */}
@@ -200,33 +188,9 @@ export default function NotifyViaMail() {
                     {/* Heading */}
                     <div className="flex flex-row justify-between items-center">
                         <div className="flex flex-row">
-                            <select ref={userType} className='p-1 rounded-md bg-blue-100 text-blue-800 text-2xl font-semibold' name="userType" id="userType">
-                                <option value="%"><h2 className='text-2xl font-semibold text-blue-900'>All</h2></option>
-                                <option value="Advisor"><h2 className='text-2xl font-semibold text-blue-900'>Advisor</h2></option>
-                                <option value="Team"><h2 className='text-2xl font-semibold text-blue-900'>Team</h2></option>
-                                <option value="Member"><h2 className='text-2xl font-semibold text-blue-900'>Memeber</h2></option>
-                                <option value="Event"><h2 className='text-2xl font-semibold text-blue-900'>Event</h2></option>
-
-                            </select>
-                            {users && <div className="text-blue-800 text-2xl font-semibold">({users.length})</div>
+                            {users &&
+                                <div className="text-blue-800 text-2xl font-semibold">Resend Mail ({users.length})</div>
                             }
-                        </div>
-                        <div className="">
-                            {error &&
-                                <div className=" flex flex-row justify-between bg-red-500 p-3 rounded-xl">
-                                    {error}
-                                    <div onClick={() => { setError(null) }} className='px-4 text-white cursor-pointer'>X</div>
-                                </div>
-                            }
-                            <div className="flex flex-col space-y-2 items-center sm:flex-row sm:space-x-1">
-                                <h4 className='text-blue-800 font-semibold self-center'>Search by(year/dept/serial/event-id):</h4>
-                                <div className='flex flex-row space-x-2 items-center'>
-                                    <input ref={year} className='w-10 h-7 rounded-sm pl-1' type="number" placeholder='19' />
-                                    <input ref={dept} className='w-10 h-7 rounded-sm pl-1' type="number" placeholder='01' />
-                                    <input ref={serial} className='w-10 h-7 rounded-sm pl-1' type="number" placeholder='40' />
-                                </div>
-                                <div onClick={ev => search()} className=' bg-blue-700 cursor-pointer text-white font-semibold w-20 self-end px-2 py-1 rounded-md'>Search</div>
-                            </div>
                         </div>
                     </div>
 

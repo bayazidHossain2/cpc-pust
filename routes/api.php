@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\AuthController;
 use App\Models\User;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Api\UserController;
+use App\Models\emails;
+use App\Models\emailed_users;
+use App\Models\blog_catagory;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +29,6 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/logout', [AuthController::class,'logout']);
 
     Route::get('/requested-user', function () {
-    
         $users = DB::table('users')
             ->where('cpc_position','=',null)
             ->orderBy('id', 'desc')
@@ -36,7 +38,6 @@ Route::middleware('auth:sanctum')->group(function(){
     });
 
     Route::get('/team-user', function () {
-    
         $users = DB::table('users')
             ->where('cpc_position','=','Team')
             ->orderBy('id', 'desc')
@@ -55,7 +56,6 @@ Route::middleware('auth:sanctum')->group(function(){
     });
 
     Route::get('/member-user', function () {
-    
         $users = DB::table('users')
             ->where('cpc_position','!=','Advisor')
             ->orderBy('id', 'desc')
@@ -85,15 +85,12 @@ Route::middleware('auth:sanctum')->group(function(){
         }else{
             $qq = $qq.$ss;
         }
-
         $users = DB::table('users')
             ->where('cpc_position','!=','Advisor')
             ->where('s_id','LIKE',$qq)
             ->orderBy('id', 'desc')
             ->get();
-    
         return $users;
-        
     });
     // User Query common
     Route::post('/user-query', function (Request $request) {
@@ -123,7 +120,21 @@ Route::middleware('auth:sanctum')->group(function(){
             ->where('s_id','LIKE',$qq)
             ->orderBy('id', 'desc')
             ->get();
-    
+        return $users;
+        
+    });
+
+    Route::post('/mailed-user-query', function (Request $request) {
+
+        $user_id = DB::table('emailed_users')
+            ->where('email_id',$request['mail_id'])
+            ->orderBy('id', 'desc')
+            ->get();
+        $users = array();
+        foreach($user_id as $id){
+            $user = User::find($id->user_id);
+            array_push($users, $user);
+        }
         return $users;
         
     });
@@ -138,6 +149,26 @@ Route::middleware('auth:sanctum')->group(function(){
         $user->fill(['cpc_position'=>$request['position']])->save();
         // MailController::signup_approve_mail($request['email']);
     });
+
+    // Mails
+    Route::get('/all-mails', function () {
+        $emails = DB::table('emails')
+            ->orderBy('id', 'desc')
+            ->get();
+        return $emails;
+        // ->where('s_id','NOT LIKE','19____')
+    });
+    Route::post('/delete-mail', function (Request $request) {
+        emails::where('id',$request['mail_id'])->delete();
+        emailed_users::where('email_id',$request['mail_id'])->delete();
+    });
+
+    // Blogs
+    Route::post('/add-catagory', function (Request $request) {
+        blog_catagory::create([
+            'catagory' => $request['catagory']
+        ]);
+    });
 });
 
 Route::apiResource('/users', UserController::class);
@@ -146,11 +177,9 @@ Route::apiResource('/users', UserController::class);
 Route::post('/signup', [AuthController::class,'signup']);
 
 Route::get('/dept-name', function () {
-    
     $users = DB::table('dept_name')
         ->orderBy('id', 'asc')
         ->get();
-
     return $users;
 });
 Route::post('/login', [AuthController::class,'login']);
@@ -159,5 +188,6 @@ Route::post('/varify', [AuthController::class, 'varify']);
 
 Route::post('/send-mail',[MailController::class,'email_varification']);
 Route::post('/common-mail',[MailController::class,'common_mail']);
+Route::post('/common-mail-data-store',[MailController::class,'store_mail_data']);
 Route::post('/send-mail-success',[MailController::class,'email_varification_success']);
 Route::post('/send-mail-rejected',[MailController::class,'signup_rejected_mail']);

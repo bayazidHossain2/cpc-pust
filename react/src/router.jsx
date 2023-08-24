@@ -16,6 +16,9 @@ import Member from "./views/admin/user/member";
 import Request from "./views/admin/user/request";
 import MailVarify from "./views/user/auth/mailVarify";
 import NotifyViaMail from "./views/admin/mail/notifyViaMail";
+import AllMails from "./views/admin/mail/allMail";
+import ResendMail from "./views/admin/mail/resend";
+import AddCatagory from "./views/admin/blogs/addCatagory";
 
 
 const router = createBrowserRouter([
@@ -69,6 +72,18 @@ const router = createBrowserRouter([
             {
                 path: 'notify-via-mail',
                 element: <NotifyViaMail />
+            },
+            {
+                path: 'previousMail',
+                element: <AllMails />
+            },
+            {
+                path: 'resendMail',
+                element: <ResendMail />
+            },
+            {
+                path: 'addNewCatagory',
+                element: <AddCatagory />
             },
         ]
 

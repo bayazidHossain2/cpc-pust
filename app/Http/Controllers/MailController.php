@@ -8,6 +8,8 @@ use App\Mail\simpleMail;
 use App\Mail\varificationMail;
 use App\Mail\varificationSuccessMail;
 use App\Mail\signupRejectedMail;
+use App\Models\emails;
+use App\Models\emailed_users;
 
 class MailController extends Controller
 {
@@ -54,12 +56,28 @@ class MailController extends Controller
         //dd('Mail send successfully.');
     }
 
+    public function store_mail_data(Request $request){
+        $email = emails::create([
+            'title' => $request['title'],
+            'body' => $request['body']
+        ]);
+
+        return response([
+            'email_id' => $email->id,
+        ]);
+    }
+
     public function common_mail(Request $request){
         $mail = $request['email'];
         $mailData = [
             'title' => $request['title'],
             'body' => $request['body'],
         ];
+
+        emailed_users::create([
+            'email_id' => $request['email_id'],
+            'user_id' => $request['user_id']
+        ]);
 
         Mail::to($mail)->send(new simpleMail($mailData));
         //dd('Mail send successfully.');
