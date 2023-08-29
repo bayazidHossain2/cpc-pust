@@ -23,7 +23,7 @@ export default function Signup() {
   const [deptName, setDeptName] = useState(null);
   const [r_email, setremail] = useState(null);
   const [r_password, setrpassword] = useState(null);
-  
+
 
   useEffect(() => {
     axiosClient.get('/dept-name')
@@ -145,9 +145,10 @@ export default function Signup() {
           {mailVarify ?
             // Varify Email
             <div className="">
+              <h2 className=' font-bold text-xl text-blue-950'>Mail Varification :</h2>
               <div className={loading ? " opacity-50 pointer-events-none cursor-default mt-6 text-right" : "mt-6 text-right"}>
-                <div className="my-6">
-                  <label className="block text-sm font-medium text-slate-700">Varification Code</label>
+                <div className="my-6 flex flex-col">
+                  <label className="block text-sm font-medium text-slate-700 self-start">Varification Code</label>
                   <div className="mt-1">
                     <input ref={varifyRef} type="number" className="px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" placeholder="Enter your password." />
                   </div>
@@ -160,6 +161,7 @@ export default function Signup() {
             </div>
             :
             <form>
+              <h2 className=' font-bold text-xl text-blue-950'>Registration :</h2>
               {/* Name  */}
               <div className='inp-component'>
                 <label className="block text-sm font-medium text-slate-700">Name</label>
@@ -167,6 +169,7 @@ export default function Signup() {
                   <input ref={nameRef} type="text" className="px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" placeholder="Enter your Name." />
                 </div>
               </div>
+              
               {/* Email  */}
               <div className='inp-component mt-4'>
                 <label className="block text-sm font-medium text-slate-700">Email</label>

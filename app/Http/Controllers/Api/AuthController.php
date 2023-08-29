@@ -45,7 +45,7 @@ class AuthController extends Controller
         $token = $user->createToken('main')->plainTextToken;
         // $user = 'str';
         // $token = 'token';
-        MailController::email_varification($v_code,$data['email']);
+        // MailController::email_varification($v_code,$data['email']);
         
         return response([
             'user' => $user,

@@ -169,6 +169,12 @@ Route::middleware('auth:sanctum')->group(function(){
             'catagory' => $request['catagory']
         ]);
     });
+    Route::get('/all-blogs-catagory', function (){
+        $catagory = DB::table('blog_catagories')
+            ->orderBy('id', 'asc')
+            ->get();
+        return $catagory;
+    });
 });
 
 Route::apiResource('/users', UserController::class);

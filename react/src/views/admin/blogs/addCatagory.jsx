@@ -12,6 +12,7 @@ export default function AddCatagory() {
         axiosClient.post('/add-catagory', load)
             .then(({data}) => {
                 console.log('ADD catagory success.');
+                catagoryRef.current.value = null;
             })
     }
 
@@ -29,7 +30,7 @@ export default function AddCatagory() {
             {/* members list */}
             <div className="flex flex-col h-[90%] bg-white">
 
-                <div className="flex flex-col bg-blue-100 rounded-lg w-[80%] px-4 py-10 m-auto">
+                <div className="flex flex-col bg-blue-100 rounded-lg w-[60%] px-4 py-10 m-auto">
 
                     <label className="block text-sm font-medium text-slate-700">Catagory</label>
                     <div className="mt-1 mb-8">

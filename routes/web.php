@@ -31,26 +31,13 @@ Route::get('/', function () {
 
 
 Route::get('/ff', function () {
-    $user_id = DB::table('emailed_users')
-            ->where('email_id','9')
-            ->orderBy('id', 'desc')
+    $catagory = DB::table('blog_catagories')
+            ->orderBy('id', 'asc')
             ->get();
-    echo 'Delete success';
-    echo $user_id;
-    $users = array();
-    foreach($user_id as $id){
-        print_r($id);
-        echo $id->user_id;
-        $user = User::find($id->user_id);
-        echo '<br />';
-        echo $user;
-        array_push($users, $user);
-    }
-    echo '<br />';echo '<br />';
-    // print_r($users);
-    echo gettype($user_id);
-    echo gettype((object)$users);
-    echo gettype($user_id[0]);
+        return $catagory;
+    echo 'Mail send success';
+    // echo gettype((object)$users);
+    // echo gettype($user_id[0]);
     // echo (object)$users;
 });
 

@@ -13,7 +13,7 @@ use App\Models\emailed_users;
 
 class MailController extends Controller
 {
-    public function email_varification($code, $mail){
+    public static function email_varification($code, $mail){
 
         // $code = $request['code'];
         // $mail = $request['mail'];
@@ -25,7 +25,7 @@ class MailController extends Controller
         Mail::to($mail)->send(new varificationMail($mailData));
         //dd('Mail send successfully.');
     }
-    public function email_varification_success($mail){
+    public static function email_varification_success($mail){
         // $mail = $request['email'];
         $mailData = [
             'title' => 'Varification Mail from CPC, PUST',
@@ -34,7 +34,7 @@ class MailController extends Controller
         Mail::to($mail)->send(new varificationSuccessMail($mailData));
         //dd('Mail send successfully.');
     }
-    public function signup_rejected_mail(Request $request){
+    public static function signup_rejected_mail(Request $request){
         $mail = $request['mail'];
         $mailData = [
             'title' => 'Signup request rejection Mail from CPC, PUST',
@@ -45,7 +45,7 @@ class MailController extends Controller
         //dd('Mail send successfully.');
     }
 
-    public function signup_approve_mail($mail){
+    public static function signup_approve_mail($mail){
         // $mail = $request['mail'];
         $mailData = [
             'title' => 'Signup request Accepted Mail from CPC, PUST',
@@ -67,7 +67,7 @@ class MailController extends Controller
         ]);
     }
 
-    public function common_mail(Request $request){
+    public static function common_mail(Request $request){
         $mail = $request['email'];
         $mailData = [
             'title' => $request['title'],

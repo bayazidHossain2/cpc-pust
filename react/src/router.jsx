@@ -19,6 +19,7 @@ import NotifyViaMail from "./views/admin/mail/notifyViaMail";
 import AllMails from "./views/admin/mail/allMail";
 import ResendMail from "./views/admin/mail/resend";
 import AddCatagory from "./views/admin/blogs/addCatagory";
+import AllBlogs from "./views/admin/blogs/allBlogs";
 
 
 const router = createBrowserRouter([
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
             {
                 path: '/blogs',
                 element: <Blogs />
+            },
+            {
+                path: '/allBlogs',
+                element: <AllBlogs />
             },
             {
                 path: '/notify',

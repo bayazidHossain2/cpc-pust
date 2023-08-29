@@ -166,7 +166,7 @@ export default function DefaultLayout() {
                     <Link to="/blogs">Create new events +</Link>
                   </li>
                   <li>
-                    <Link to="/blogs">All events</Link>
+                    <Link to="/allBlogs">All events</Link>
                   </li>
                   <li>
                     <Link to="/blogs">Running events</Link>
@@ -194,7 +194,7 @@ export default function DefaultLayout() {
                     <Link to="/addNewCatagory">Add new Catagory +</Link>
                   </li>
                   <li>
-                    <Link to="/blogs">All blogs</Link>
+                    <Link to="/allBlogs">All blogs</Link>
                   </li>
                   <li>
                     <Link to="/blogs">Publish request</Link>

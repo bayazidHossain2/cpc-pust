@@ -57,8 +57,9 @@ export default function NotifyViaMail() {
 
         const maildata = {
             title: m_title,
-            body: m_body
+            body: ' this is , coma text..,..',
         }
+        console.log(maildata);
         await axiosClient.post('/common-mail-data-store', maildata)
             .then(async ({data}) => {
                 console.log('Email Data store seccess. with id : '+data.email_id);
