@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Models\emails;
 use App\Models\emailed_users;
 use App\Models\blog_catagory;
+use App\Models\blogs;
 
 /*
 |--------------------------------------------------------------------------
@@ -174,6 +175,33 @@ Route::middleware('auth:sanctum')->group(function(){
             ->orderBy('id', 'asc')
             ->get();
         return $catagory;
+    });
+    Route::post('/blog-query', function (Request $request) {
+        $type = $request['type'];
+        if($type == 'all'){
+            $blogs = DB::table('blogs')
+                ->where('is_varified', 'yes')
+                ->orderBy('id', 'desc')
+                ->get();
+            return $blogs;
+        }else if($type == 'requested'){
+            $blogs = DB::table('blogs')
+                ->where('is_varified', 'no')
+                ->orderBy('id', 'asc')
+                ->get();
+            return $blogs;
+        }
+
+        $blogs = DB::table('blogs')
+            ->where('catagory_id',$type)
+            ->orderBy('id', 'desc')
+            ->get();
+        return $blogs;
+        
+    });
+    Route::post('/update-blog', function(Request $request){
+        $blog = blogs::find($request['id']);
+        $blog->fill([$request['field']=>$request['value']])->save();
     });
 });
 

@@ -20,6 +20,7 @@ import AllMails from "./views/admin/mail/allMail";
 import ResendMail from "./views/admin/mail/resend";
 import AddCatagory from "./views/admin/blogs/addCatagory";
 import AllBlogs from "./views/admin/blogs/allBlogs";
+import BlogRequests from "./views/admin/blogs/blogRequest";
 
 
 const router = createBrowserRouter([
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
             {
                 path: '/allBlogs',
                 element: <AllBlogs />
+            },
+            {
+                path: '/blogRequests',
+                element: <BlogRequests />
             },
             {
                 path: '/notify',

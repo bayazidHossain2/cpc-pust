@@ -12,6 +12,7 @@ use App\Http\Resources\UserResource;
 use App\Mail\simpleMail;
 use App\Models\emails;
 use App\Models\emailed_users;
+use App\Models\blogs;
 // use App\Http\Controllers\MailController;
 
 /*
@@ -31,11 +32,11 @@ Route::get('/', function () {
 
 
 Route::get('/ff', function () {
-    $catagory = DB::table('blog_catagories')
-            ->orderBy('id', 'asc')
-            ->get();
-        return $catagory;
+
+    $blog = blogs::find('2');
+    $blog->fill(['is_varified'=>'yes'])->save();
     echo 'Mail send success';
+    echo $blog;
     // echo gettype((object)$users);
     // echo gettype($user_id[0]);
     // echo (object)$users;
