@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useStateContext } from '../contexts/contextProvider'
+import Header from './Common/Header';
+import Footer from './Common/Footer';
 
 export default function GuestLayout() {
 
@@ -20,7 +22,7 @@ export default function GuestLayout() {
       <div className="relative">
         <div className={box ? " opacity-50 pointer-events-none cursor-default" : " bg-stone-200"}>
 
-          <header className="h-16 bg-pink-50">This is header</header>
+          <Header />
           {/* welcome  */}
           <div className=' flex flex-col w-[90%] mt-16 mb-16 mx-auto bg-gray-100 p-6 rounded-lg sm:w-[70%] md:space-x-4 md:flex-row'>
             <div className=" w-full md:w-1/2">
@@ -34,9 +36,7 @@ export default function GuestLayout() {
               <Outlet />
             </div>
           </div>
-          <footer className=' h-48 bg-pink-50'>
-            This is footer
-          </footer>
+          <Footer />
         </div>
 
         {/* Box Container  */}

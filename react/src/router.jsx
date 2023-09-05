@@ -1,4 +1,4 @@
-import {Navigate, createBrowserRouter} from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import NotFound from "./views/notFound";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
@@ -21,6 +21,12 @@ import ResendMail from "./views/admin/mail/resend";
 import AddCatagory from "./views/admin/blogs/addCatagory";
 import AllBlogs from "./views/admin/blogs/allBlogs";
 import BlogRequests from "./views/admin/blogs/blogRequest";
+import UserPageLayout from "./components/UserPageLayout";
+import HomeU from "./views/public/Home";
+import Gallery from "./views/public/Gallery";
+import BlogsU from "./views/public/Blogs";
+import EventsU from "./views/public/Events";
+import MembersU from "./views/public/Members";
 
 
 const router = createBrowserRouter([
@@ -33,7 +39,7 @@ const router = createBrowserRouter([
                 path: '/',
                 element: <Navigate to="/users" />
             },
-            
+
             {
                 path: '/advisor',
                 element: <Advisor />
@@ -106,7 +112,7 @@ const router = createBrowserRouter([
                 path: '/login',
                 element: <Login />
             },
-        
+
             {
                 path: '/signup',
                 element: <Signup />
@@ -116,6 +122,36 @@ const router = createBrowserRouter([
                 path: '/mail-varify',
                 element: <MailVarify />
             },
+        ]
+
+    },
+    {
+        path: '/',
+        element: <UserPageLayout />,
+        children: [
+            {
+                path: '/home',
+                element: <HomeU />
+            },
+            
+            {
+                path: '/gallery',
+                element: <Gallery />
+            },
+
+            {
+                path: '/blogsu',
+                element: <BlogsU />
+            },
+            {
+                path: '/eventsu',
+                element: <EventsU />
+            },
+            {
+                path: '/members',
+                element: <MembersU />
+            },
+
         ]
 
     },

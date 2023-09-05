@@ -61,6 +61,7 @@ export default function Login() {
       }
       <div className="">
         <form>
+          <h2 className=' font-bold text-xl text-blue-950'>Sign In :</h2>
           <div className=''>
             <label className="block text-sm font-medium text-slate-700">Email</label>
             <div className="mt-1">

@@ -77,6 +77,8 @@ export default function MailVarify() {
           </div>
 
           : <form>
+            <h2 className=' font-bold text-xl text-blue-950'>Mail Varify :</h2>
+
             <div className=''>
               <label className="block text-sm font-medium text-slate-700">Email</label>
               <div className="mt-1">
