@@ -7,11 +7,15 @@ import Footer from './Common/Footer';
 export default function UserPageLayout() {
 
     const [box, setBox] = useState(false);
+    const {token} = useStateContext();
 
     const closeBox = () => {
         setBox(false);
     }
 
+    if (!token) {
+        return <Navigate to="/login" />
+    }
     //   const { token } = useStateContext()
     //   if (token) {
     //     return <Navigate to="/" />
@@ -61,7 +65,7 @@ export default function UserPageLayout() {
     return (
         <div>
             {/* Heading Section */}
-            
+
             <Header />
 
             {/* End Header Section */}
