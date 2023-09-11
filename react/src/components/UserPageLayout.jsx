@@ -69,10 +69,8 @@ export default function UserPageLayout() {
             <Header />
 
             {/* End Header Section */}
-            <h2>This is user page</h2>
 
-            <div className=" w-full md:w-1/2 mt-8">
-
+            <div className="w-full">
                 <Outlet />
             </div>
 

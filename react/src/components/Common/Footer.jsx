@@ -25,14 +25,14 @@ export default function Footer() {
                             </div>
 
                             <p class="mt-4 max-w-xs text-gray-500">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse non
-                                cupiditate quae nam molestias.
+                                CPC PUST is the most primitive and extensive club of our University.
+                                We work together to explore every field of Computer Science. Join us to know more.
                             </p>
 
                             <ul class="mt-8 flex gap-6">
                                 <li>
                                     <a
-                                        href="https://www.facebook.com/groups/402634149762278"
+                                        href="https://www.facebook.com/PUST.PC"
                                         rel="noreferrer"
                                         target="_blank"
                                         class="text-gray-700 transition hover:opacity-75"
@@ -102,7 +102,7 @@ export default function Footer() {
 
                                 <li>
                                     <a
-                                        href="/"
+                                        href="https://github.com/bayazidHossain2/cpc-pust"
                                         rel="noreferrer"
                                         target="_blank"
                                         class="text-gray-700 transition hover:opacity-75"
@@ -151,8 +151,7 @@ export default function Footer() {
                         </div>
 
                         <div
-                            class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4"
-                        >
+                            class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
                             <div>
                                 <p class="font-medium text-gray-900">Services</p>
 
