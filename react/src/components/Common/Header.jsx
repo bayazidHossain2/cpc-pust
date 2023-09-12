@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useStateContext } from '../../contexts/contextProvider'
 import axiosClient from '../../axios-client';
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+    const disSelect = 'text-lg cursor-pointer text-gray-400 hover:text-gray-600';
+    const select = 'text-lg cursor-pointer text-blue-600 font-bold';
+    const [homestyle, sethomestyle] = useState(select);
+    const [gallerystyle, setgallerystyle] = useState(disSelect);
+    const [blogstyle, setblogstyle] = useState(disSelect);
+    const [eventstyle, seteventstyle] = useState(disSelect);
+    const [memberstyle, setmemberstyle] = useState(disSelect);
+    const navigate = useNavigate();
 
     const { user, token, setUser, setToken } = useStateContext();
 
@@ -25,6 +34,47 @@ export default function Header() {
             console.log(response);
           })
       }
+
+      const HomeListener = (ev) => {
+        sethomestyle(select);
+        setgallerystyle(disSelect);
+        setblogstyle(disSelect);
+        seteventstyle(disSelect);
+        setmemberstyle(disSelect);
+        navigate('/home');
+      }
+      const GalleryListener = (ev) => {
+        sethomestyle(disSelect);
+        setgallerystyle(select);
+        setblogstyle(disSelect);
+        seteventstyle(disSelect);
+        setmemberstyle(disSelect);
+        navigate('/gallery');
+      }
+      const BlogListener = (ev) => {
+        sethomestyle(disSelect);
+        setgallerystyle(disSelect);
+        setblogstyle(select);
+        seteventstyle(disSelect);
+        setmemberstyle(disSelect);
+        navigate('/blogsu');
+      }
+      const EventListener = (ev) => {
+        sethomestyle(disSelect);
+        setgallerystyle(disSelect);
+        setblogstyle(disSelect);
+        seteventstyle(select);
+        setmemberstyle(disSelect);
+        navigate('/eventsu');
+      }
+      const MemberListener = (ev) => {
+        sethomestyle(disSelect);
+        setgallerystyle(disSelect);
+        setblogstyle(disSelect);
+        seteventstyle(disSelect);
+        setmemberstyle(select);
+        navigate('/members');
+      }
     return (
         <div>
             <nav class="relative px-4 py-4 flex justify-between items-center bg-sky-100">
@@ -43,31 +93,31 @@ export default function Header() {
                     </button>
                 </div>
                 <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-                    <li><a class="text-sm text-gray-400 hover:text-gray-500" href="/home">Home</a></li>
+                    <li><div onClick={HomeListener} className={homestyle}>Home</div></li>
                     <li class="text-gray-300">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                         </svg>
                     </li>
-                    <li><a class="text-sm text-blue-600 font-bold" href="/gallery">Gallery</a></li>
+                    <li><div onClick={GalleryListener} className={gallerystyle}>Gallery</div></li>
                     <li class="text-gray-300">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                         </svg>
                     </li>
-                    <li><a class="text-sm text-gray-400 hover:text-gray-500" href="/blogsu">Blogs</a></li>
+                    <li><div onClick={BlogListener} className={blogstyle}>Blogs</div></li>
                     <li class="text-gray-300">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                         </svg>
                     </li>
-                    <li><a class="text-sm text-gray-400 hover:text-gray-500" href="/eventsu">Events</a></li>
+                    <li><div onClick={EventListener} className={eventstyle}>Events</div></li>
                     <li class="text-gray-300">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                         </svg>
                     </li>
-                    <li><a class="text-sm text-gray-400 hover:text-gray-500" href="/members">Members</a></li>
+                    <li><div onClick={MemberListener} className={memberstyle}>Members</div></li>
                 </ul>
                 {token
                     ? <div className="">
