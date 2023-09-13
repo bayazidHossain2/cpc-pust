@@ -33,10 +33,11 @@ Route::get('/', function () {
 
 Route::get('/ff', function () {
 
-    $blog = blogs::find('2');
-    $blog->fill(['is_varified'=>'yes'])->save();
+    $user = User::find(1);
+    $user->fill(['name'=>'Md Bayazid Hossain', 'department'=>'CSE'])->save();
+   
     echo 'Mail send success';
-    echo $blog;
+    echo $user;
     // echo gettype((object)$users);
     // echo gettype($user_id[0]);
     // echo (object)$users;

@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useStateContext } from '../contexts/contextProvider'
 import Header from './Common/Header';
 import Footer from './Common/Footer';
+import axiosClient from '../axios-client';
 
 export default function UserPageLayout() {
 
+    const { user, token, setUser, setToken } = useStateContext();
     const [box, setBox] = useState(false);
-    const {token} = useStateContext();
 
     const closeBox = () => {
         setBox(false);
     }
+    useEffect(() => {
+        axiosClient.get('/user')
+          .then(({ data }) => {
+            setUser(data);
+            console.log('data added');
+          })
+      }, [])
 
     if (!token) {
         return <Navigate to="/login" />

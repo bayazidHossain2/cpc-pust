@@ -27,6 +27,7 @@ import Gallery from "./views/public/Gallery";
 import BlogsU from "./views/public/Blogs";
 import EventsU from "./views/public/Events";
 import MembersU from "./views/public/Members";
+import Profile from "./views/public/Profile";
 
 
 const router = createBrowserRouter([
@@ -150,6 +151,10 @@ const router = createBrowserRouter([
             {
                 path: '/members',
                 element: <MembersU />
+            },
+            {
+                path: '/profile',
+                element: <Profile />
             },
 
         ]

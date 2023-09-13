@@ -8,7 +8,7 @@ import axiosClient from '../axios-client';
 export default function DefaultLayout() {
 
 
-  const { user, token, setUser, setToken } = useStateContext()
+  const { user, token, setUser, setToken } = useStateContext();
   const [bottomMenue, setBottomMenue] = useState(false);
   const [usersActive, setUserActive] = useState(false);
   const [eventsActive, setEventsActive] = useState(false);

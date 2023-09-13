@@ -17,64 +17,73 @@ export default function Header() {
 
     const onLogout = (ev) => {
         ev.preventDefault()
-    
+
         console.log('logout click');
         console.log(user);
         console.log(token);
-    
-        axiosClient.post('/logout')
-          .then(() => {
-            setUser({})
-            setToken(null)
-            console.log('logout Success');
-          })
-          .catch(err => {
-            response = err.response;
-            console.log('log out fail');
-            console.log(response);
-          })
-      }
 
-      const HomeListener = (ev) => {
+        setUser({})
+        setToken(null)
+        axiosClient.post('/logout')
+            .then(() => {
+                console.log('logout Success');
+            })
+            .catch(err => {
+                response = err.response;
+                console.log('log out fail');
+                console.log(response);
+
+            })
+    }
+
+    const HomeListener = (ev) => {
         sethomestyle(select);
         setgallerystyle(disSelect);
         setblogstyle(disSelect);
         seteventstyle(disSelect);
         setmemberstyle(disSelect);
         navigate('/home');
-      }
-      const GalleryListener = (ev) => {
+    }
+    const GalleryListener = (ev) => {
         sethomestyle(disSelect);
         setgallerystyle(select);
         setblogstyle(disSelect);
         seteventstyle(disSelect);
         setmemberstyle(disSelect);
         navigate('/gallery');
-      }
-      const BlogListener = (ev) => {
+    }
+    const BlogListener = (ev) => {
         sethomestyle(disSelect);
         setgallerystyle(disSelect);
         setblogstyle(select);
         seteventstyle(disSelect);
         setmemberstyle(disSelect);
         navigate('/blogsu');
-      }
-      const EventListener = (ev) => {
+    }
+    const EventListener = (ev) => {
         sethomestyle(disSelect);
         setgallerystyle(disSelect);
         setblogstyle(disSelect);
         seteventstyle(select);
         setmemberstyle(disSelect);
         navigate('/eventsu');
-      }
-      const MemberListener = (ev) => {
+    }
+    const MemberListener = (ev) => {
         sethomestyle(disSelect);
         setgallerystyle(disSelect);
         setblogstyle(disSelect);
         seteventstyle(disSelect);
         setmemberstyle(select);
         navigate('/members');
-      }
+    }
+    const ProfileListener = () => {
+        sethomestyle(disSelect);
+        setgallerystyle(disSelect);
+        setblogstyle(disSelect);
+        seteventstyle(disSelect);
+        setmemberstyle(disSelect);
+        navigate('/profile');
+    }
     return (
         <div>
             <nav class="relative px-4 py-4 flex justify-between items-center bg-sky-100">
@@ -121,7 +130,7 @@ export default function Header() {
                 </ul>
                 {token
                     ? <div className="">
-                        <a className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" href="#">{user.name}</a>
+                        <div className="hidden lg:inline-block lg:ml-auto cursor-pointer lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" onClick={ProfileListener}>{user.name}</div>
                         <div onClick={onLogout} className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200 cursor-pointer">Sign out</div>
                     </div>
                     : <div className="">

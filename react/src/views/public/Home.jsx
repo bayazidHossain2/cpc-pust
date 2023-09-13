@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import bgimage from '/coverBG.jpg'
 import logo_acm from '/Logo/acm_logo.png'
 import logo_dev from '/Logo/dev_logo.png'
@@ -18,6 +18,15 @@ import ih from '/profile/ih.jpg'
 
 
 export default function HomeU() {
+
+  const imageRef = useRef();
+  const [pre, setpre] = useState();
+
+  const onPrev = (e) => {
+    // setpre(imageRef.current.value);
+    console.log(e.target.files);
+  }
+
   return (
     <div className=' bg-slate-200'>
       <div className="h-screen bg-purple-700">
@@ -223,6 +232,13 @@ export default function HomeU() {
           </div>
         </div>
         <div className=" text-slate-500 text-4xl self-center">-- - --</div>
+      </div>
+
+
+      <div className=" bg-yellow-800 p-40">
+        <input onChange={onPrev} type="file" />
+        <img src={pre} alt="" />
+        {/* <button onClick={onPrev}>Prev</button> */}
       </div>
     </div>
   )

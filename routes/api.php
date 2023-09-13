@@ -29,6 +29,11 @@ Route::middleware('auth:sanctum')->group(function(){
     });
     Route::post('/logout', [AuthController::class,'logout']);
 
+    Route::post('/update-user-name', function(Request $request){
+        $user = User::find($request['id']);
+        $user->fill(['name'=>$request['name'], 'department'=>$request['dept']])->save();
+    });
+
     Route::get('/requested-user', function () {
         $users = DB::table('users')
             ->where('cpc_position','=',null)
