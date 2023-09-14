@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Component, useState } from 'react'
 import ss from '/profile/subirsaha.jpg'
 import edit_icon from '/Logo/edit.png'
 import avater from '/profile/avater.webp'
@@ -18,6 +18,13 @@ export default function Profile() {
 
     const [name, setName] = useState('');
     const [dept, setDept] = useState('');
+    const [image, setImage] = useState(null);
+    const [linkedin, setLinkedin] = useState();
+    const [git, setGit] = useState();
+    const [studentId, setStudentId] = useState();
+    const [session, setSession] = useState();
+    const [phone, setPhone] = useState();
+    const [passingYear, setPassingYear] = useState();
 
 
 
@@ -35,19 +42,26 @@ export default function Profile() {
         setnameBox(true);
     }
     const onImg = () => {
+        setImage('');
         setType('Edit Image');
         setimgBox(true);
     }
     const onLinkEdit = () => {
+        setLinkedin(user.linked_in);
+        setGit(user.git);
         setType('Edit Links');
         setlinksBox(true);
     }
     const onContuctEdit = () => {
-        setType('Edit Contuct Information');
+        setType('Edit Contact Information');
         setcontuctBox(true);
+        setStudentId(user.s_id);
+        setSession(user.session);
+        setPhone(user.phone);
+        setPassingYear(user.passing_year);
     }
 
-    // Save Data Functions
+    // Save Name Functions
     const updateName = () => {
         const payload = {
             id: user.id,
@@ -55,7 +69,60 @@ export default function Profile() {
             dept: dept
         }
         console.log(payload);
-        axiosClient.post('/update-user-name',payload)
+        axiosClient.post('/update-user-name', payload)
+            .then(() => {
+                console.log('Name update success');
+                closeBox();
+                navigate('/profile')
+            })
+    }
+
+    // Save image Functions
+    const updateProfile = () => {
+        if (image == null) {
+            closeBox();
+            return;
+        }
+
+        console.log('value of image is : ');
+        console.log(image);
+        const data = new FormData();
+        data.append('id', user.id);
+        data.append('image', image);
+        console.log(data);
+        axiosClient.post('/update-user-profile', data)
+            .then(() => {
+                console.log('profile update success');
+                closeBox();
+                navigate('/profile')
+            })
+    }
+    // Save Links Functions
+    const updateLinks = () => {
+        const payload = {
+            id: user.id,
+            linked_in: linkedin,
+            git: git
+        }
+        console.log(payload);
+        axiosClient.post('/update-user-links', payload)
+            .then(() => {
+                console.log('Name update success');
+                closeBox();
+                navigate('/profile')
+            })
+    }
+    // Save Contact Functions
+    const updateContact = () => {
+        const payload = {
+            id: user.id,
+            s_id: studentId,
+            session: session,
+            phone: phone,
+            passingYear: passingYear,
+        }
+        console.log(payload);
+        axiosClient.post('/update-user-contact', payload)
             .then(() => {
                 console.log('Name update success');
                 closeBox();
@@ -78,7 +145,10 @@ export default function Profile() {
                         </div>
                         {/* Profile image */}
                         <div className=" border-4 border-blue-600 self-center rounded-xl">
-                            <img onClick={onImg} src={avater} className='h-40 w-40 rounded-xl p-1' />
+                            {user.profile_image ?
+                                <img onClick={onImg} src={"http://localhost:8000/image/profile/" + user.profile_image} className='h-40 w-40 rounded-xl p-1' />
+                                : <img onClick={onImg} src={avater} className='h-40 w-40 rounded-xl p-1' />
+                            }
                         </div>
                     </div>
                     <h2 className='text-xl mt-10 font-bold'>Skills</h2>
@@ -91,8 +161,8 @@ export default function Profile() {
                                 <img onClick={onLinkEdit} className='w-10 h-10 px-1 pb-2 rounded-lg hover:bg-blue-200' src={edit_icon} />
                             </div>
                             <div className="flex flex-col mt-5 space-y-3">
-                                <button className='text-sm w-[80%] font-bold px-2 py-2 border-4 border-blue-900 rounded-xl text-white bg-blue-950 hover:bg-blue-800'>View My Linked In Profile</button>
-                                <button className='text-sm w-[80%] font-bold px-2 py-2 border-4 border-gray-700 rounded-xl text-white bg-gray-800 hover:bg-gray-600'>View My Git Hub Profile</button>
+                                <a href={user.linked_in} target="_blank" className='text-sm cursor-pointer w-[80%] text-center font-bold px-2 py-2 border-4 border-blue-900 rounded-xl text-white bg-blue-950 hover:bg-blue-800'>View My Linked In Profile</a>
+                                <a href={user.git} target="_blank" className='text-sm cursor-pointer w-[80%] text-center font-bold px-2 py-2 border-4 border-gray-700 rounded-xl text-white bg-gray-800 hover:bg-gray-600'>View My Git Hub Profile</a>
                                 <h2 className='text-lg font-semibold'>Online Judge</h2>
                                 <button className='text-sm  font-bold px-2 py-2 border-4 border-gray-400 rounded-xl text-white bg-gray-600 hover:bg-gray-700'>View My Code Forces Profile</button>
                                 <button className='text-sm  font-bold px-2 py-2 border-4 border-gray-400 rounded-xl text-white bg-gray-600 hover:bg-gray-700'>View My UVA Profile</button>
@@ -103,7 +173,7 @@ export default function Profile() {
                         </div>
                         <div className=" min-w-[45%] border-2 p-5 m-5 border-blue-900 rounded-xl">
                             <div className="flex flex-row justify-between">
-                                <h2 className='text-xl font-bold'>Contuct</h2>
+                                <h2 className='text-xl font-bold'>Contact</h2>
                                 <img onClick={onContuctEdit} className='w-10 h-10 px-1 pb-2 rounded-lg hover:bg-blue-200' src={edit_icon} />
                             </div>
                             <div className="flex flex-col space-y-3">
@@ -125,6 +195,13 @@ export default function Profile() {
                                 <div className="flex flex-col">
                                     <h3 className=' text-blue-900 font-bold'>Email:</h3>
                                     <div className='text-sm px-2 py-2 border-2 border-blue-900 rounded-xl text-black font-semibold'>{user.email}</div>
+                                </div>
+                                <div className="flex flex-col">
+                                    <h3 className=' text-blue-900 font-bold'>Passing Year:</h3>
+                                    <div className='text-sm px-2 py-2 border-2 border-blue-900 rounded-xl text-black font-semibold'>
+                                        {user.passing_year ? user.passing_year : 'Not Available'}
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -157,17 +234,65 @@ export default function Profile() {
                         </div>
                         : imgBox ?
                             // Edit Image 
-                            <div className="">
+                            <div className="flex flex-col space-y-2">
+                                <img src="" alt="" />
+                                {user.profile_image ?
+                                    <div className="flex flex-row justify-center ">
+                                        <img className='max-h-80 border-4 border-blue-300 rounded-sm ' src={"http://localhost:8000/image/profile/" + user.profile_image} alt="your profile image" />
+                                    </div>
+                                    :
+                                    <div className="flex flex-row w-[50%] bg-pink-200 p-10 h-80 self-center rounded-xl border-4 border-pink-600">
+                                        <h3 className='text-xl text-center self-center'>You don't set any image to your profile yet.</h3>
+                                    </div>
+                                }
+                                <div className="flex flex-col">
+                                    <h3 className='text-xl text-blue-900 font-semibold'>Upload a image</h3>
+                                    <input onChange={(ev) => {
+                                        setImage(ev.target.files[0]);
+                                        console.log(ev.target.files[0])
+                                    }} className='text-lg px-2 py-2 border-2 border-blue-900 rounded-xl text-black' type="file" />
+                                </div>
+                                <button onClick={updateProfile} className='w-28 py-2 self-end font-bold bg-green-600 rounded-md text-white px-3'>Save</button>
 
                             </div>
                             : linksBox ?
                                 // Edit Links
-                                <div className="">
+                                <div className="flex flex-col space-y-2">
+                                    <div className="flex flex-col space-y-2 overflow-y-scroll max-h-[60vh]">
+                                        <div className="flex flex-col">
+                                            <h3 className='text-xl text-blue-900 font-semibold'>Linked In Profile URL:</h3>
+                                            <input value={linkedin} onChange={ev => setLinkedin(ev.target.value)} className='text-lg px-2 py-2 border-2 border-blue-900 rounded-xl text-black' type="text" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <h3 className='text-xl text-blue-900 font-semibold'>Git Profile URL:</h3>
+                                            <input value={git} onChange={ev => setGit(ev.target.value)} className='text-lg px-2 py-2 border-2 border-blue-900 rounded-xl text-black' type="text" />
+                                        </div>
+                                    </div>
+                                    <button onClick={updateLinks} className='w-28 py-2 self-end font-bold bg-green-600 rounded-md text-white px-3'>Save</button>
 
                                 </div>
                                 : contuctBox ?
                                     // Edit Contuct
-                                    <div className="">
+                                    <div className="flex flex-col space-y-2">
+                                        <div className="flex flex-col space-y-2 overflow-y-scroll max-h-[60vh]">
+                                            <div className="flex flex-col">
+                                                <h3 className='text-xl text-blue-900 font-semibold'>Student Id:</h3>
+                                                <input value={studentId} onChange={ev => setStudentId(ev.target.value)} className='text-lg px-2 py-2 border-2 border-blue-900 rounded-xl text-black' type="text" />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <h3 className='text-xl text-blue-900 font-semibold'>Session:</h3>
+                                                <input value={session} onChange={ev => setSession(ev.target.value)} className='text-lg px-2 py-2 border-2 border-blue-900 rounded-xl text-black' type="text" />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <h3 className='text-xl text-blue-900 font-semibold'>Phone:</h3>
+                                                <input value={phone} onChange={ev => setPhone(ev.target.value)} className='text-lg px-2 py-2 border-2 border-blue-900 rounded-xl text-black' type="text" />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <h3 className='text-xl text-blue-900 font-semibold'>Passing Year:</h3>
+                                                <input value={passingYear} onChange={ev => setPassingYear(ev.target.value)} className='text-lg px-2 py-2 border-2 border-blue-900 rounded-xl text-black' type="text" />
+                                            </div>
+                                        </div>
+                                        <button onClick={updateContact} className='w-28 py-2 self-end font-bold bg-green-600 rounded-md text-white px-3'>Save</button>
 
                                     </div>
                                     :

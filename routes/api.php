@@ -33,6 +33,34 @@ Route::middleware('auth:sanctum')->group(function(){
         $user = User::find($request['id']);
         $user->fill(['name'=>$request['name'], 'department'=>$request['dept']])->save();
     });
+    Route::post('/update-user-profile', function(Request $request){
+        $user = User::find($request['id']);
+        if($user->profile_image != null){
+            $path = 'image/profile/'.$user->profile_image;
+            if(File::exists($path)){
+                File::delete($path);
+            }
+        }
+        $image = $request->file('image');
+        $name = time().'.'.$image->getClientOriginalExtension();
+        $image->move('image/profile',$name);
+        
+        $user->fill(['profile_image'=>$name])->save();
+        return response()->json(['success'=> 'image name is : '.$name]);
+    });
+    
+    Route::post('/update-user-links', function(Request $request){
+        $user = User::find($request['id']);
+        $user->fill(['linked_in'=>$request['linked_in'], 'git'=>$request['git']])->save();
+        
+        return response()->json(['success'=> $user]);
+    });
+    Route::post('/update-user-contact', function(Request $request){
+        $user = User::find($request['id']);
+        $user->fill(['s_id'=>$request['s_id'], 'session'=>$request['session'], 'phone'=>$request['phone'], 'passing_year'=>$request['passingYear']])->save();
+        
+        return response()->json(['success'=> $user]);
+    });
 
     Route::get('/requested-user', function () {
         $users = DB::table('users')

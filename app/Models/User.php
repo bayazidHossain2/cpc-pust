@@ -26,6 +26,11 @@ class User extends Authenticatable
         'v_code',
         'email_verified_at',
         'cpc_position',
+        'profile_image',
+        'phone',
+        'passing_year',
+        'linked_in',
+        'git',
     ];
 
     /**

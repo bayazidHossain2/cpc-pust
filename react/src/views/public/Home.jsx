@@ -111,6 +111,7 @@ export default function HomeU() {
           <h2 className=' text-slate-500 text-3xl font-bold'>Meet The</h2>
           <h2 className=' text-blue-800 text-3xl font-bold'>Advisors</h2>
         </div>
+        <h4 className='self-center mt-2 text-slate-400'>The advising teachers of PUST Computer & Programming Club</h4>
         <div className="flex flex-col h-[70%] w-[80%] bg-slate-50 m-5 rounded-xl mt-10 mx-auto">
           {/* Colored Banner */}
           <div className="flex text-center h-32 bg-blue-900 rounded-xl">
@@ -235,11 +236,330 @@ export default function HomeU() {
       </div>
 
 
-      <div className=" bg-yellow-800 p-40">
-        <input onChange={onPrev} type="file" />
-        <img src={pre} alt="" />
-        {/* <button onClick={onPrev}>Prev</button> */}
+      {/* Team Designs */}
+      <div className="flex flex-col min-h-screen">
+        <div className='flex flex-row space-x-2 bg-gradient-to-r h-20 from-transparent p-6 mt-10 w-[50%] justify-center self-center items-center via-white to-transparent'>
+          <h2 className=' text-slate-500 text-3xl font-bold'>Meet The</h2>
+          <h2 className=' text-blue-800 text-3xl font-bold'>Team</h2>
+        </div>
+        <h4 className='self-center mt-2 text-slate-400'>The core members of PUST Computer & Programming Club</h4>
+        <div className="flex flex-col h-[70%] w-[80%] bg-slate-50 m-5 rounded-xl mt-10 mx-auto">
+          {/* Colored Banner */}
+          <div className="flex text-center h-32 bg-blue-900 rounded-xl">
+            <h1 className='mx-auto p-10 text-4xl text-blue-950 font-bold'>#TEAM 2023 CPC PUST | Members</h1>
+          </div>
+          {/*  Panel */}
+          <div className="flex flex-row items-end w-[60%] self-center mt-[-60px]">
+            {/* President Component 1*/}
+            <div className="flex flex-col w-1/5 text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-24 w-24 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 2*/}
+            <div className="flex flex-col w-1/5 text-center">
+              <div className="border-4 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-28 w-28 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>Vice President</h3>
+            </div>
+            {/* President Component 3*/}
+            <div className="flex flex-col w-1/5 text-center">
+              <div className="border-4 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-30 w-30 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>President</h3>
+            </div>
+            {/* President Component 4*/}
+            <div className="flex flex-col w-1/5 text-center">
+              <div className="border-4 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-28 w-28 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>Vice President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col w-1/5 text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-24 w-24 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            
+
+          </div>
+
+          {/* General Team Member */}
+          <div className="grid grid-cols-8 gap-y-4 m-8 mx-12">
+            
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+            {/* President Component 5*/}
+            <div className="flex flex-col text-center">
+              <div className="border-2 border-blue-600 self-center rounded-full">
+                <img src={ss} className='h-20 w-20 rounded-full p-1' />
+              </div>
+              {/* Name */}
+              <h2 className='text-lg font-semibold text-blue-800'>SUBIR SAHA</h2>
+              {/* Position */}
+              <h3 className='text-sm mt-[-8px]'>General President</h3>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-row w-[50%] justify-between text-slate-500 text-2xl mt-5 mb-[10vh] self-center">
+          <button className='border-2 border-orange-600 px-2 bg-orange-50 rounded-lg hover:bg-orange-200'>Prev</button>
+          <h2 className=' text-3xl text-orange-600 font-semibold'>#TEAM 2022</h2>
+          <button className='border-2 border-orange-600 px-2 bg-orange-50 rounded-lg hover:bg-orange-200'>Next</button>
+          
+        </div>
       </div>
+
+
+      
     </div>
   )
 }
