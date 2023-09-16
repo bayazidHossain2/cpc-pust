@@ -24,6 +24,7 @@ export default function BlogRequests() {
 
     const getBlogs = (pram) => {
         console.log('Search call with : ' + pram);
+        setBlogs([]);
         const payload = {
             type: pram,
         }
@@ -35,6 +36,7 @@ export default function BlogRequests() {
     }
 
     const onApprove = (bid) => {
+        setBlogs([]);
         const payload = {
             id: bid,
             field: 'is_varified',
@@ -47,6 +49,17 @@ export default function BlogRequests() {
             })
     }
 
+    const onReject = (bid) => {
+        setBlogs([]);
+        const payload = {
+            id: bid,
+        }
+        axiosClient.post('/delete-blog',payload)
+            .then(() => {
+                console.log('Reject success');
+                getBlogs('requested');
+            })
+    }
 
     return (
         <div className='h-full'>
@@ -98,7 +111,7 @@ export default function BlogRequests() {
                                                     <p className=' text-blue-700'>{b.is_varified}</p>
                                                 </div>
                                                 <div className='flex flex-row space-x-4 my-3 justify-end'>
-                                                    <div onClick={ev => removeUserFromLIst(u.id)} className="cursor-pointer bg-red-600 text-white px-2 py-1 font-semibold rounded-lg">Reject</div>
+                                                    <div onClick={ev => onReject(b.id)} className="cursor-pointer bg-red-600 text-white px-2 py-1 font-semibold rounded-lg">Reject</div>
                                                     <div onClick={ev => onApprove(b.id)} className="cursor-pointer bg-green-600 text-white px-2 py-1 font-semibold rounded-lg">Approve</div>
                                                 </div>
                                             </div>

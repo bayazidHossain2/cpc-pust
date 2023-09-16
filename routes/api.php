@@ -29,6 +29,11 @@ Route::middleware('auth:sanctum')->group(function(){
     });
     Route::post('/logout', [AuthController::class,'logout']);
 
+    Route::post('/get-user', function(Request $request){
+        $user = User::find($request['id']);
+        return $user;
+    });
+
     Route::post('/update-user-name', function(Request $request){
         $user = User::find($request['id']);
         $user->fill(['name'=>$request['name'], 'department'=>$request['dept']])->save();
@@ -209,6 +214,18 @@ Route::middleware('auth:sanctum')->group(function(){
             ->get();
         return $catagory;
     });
+    Route::post('/blog-post', function (Request $request){
+        $bl = blogs::create([
+            'blog_title' => $request['title'],
+            'blog_content' => $request['content'],
+            'catagory_id' => $request['catagory_id'],
+            'down_vote' => 0,
+            'up_vote' => 0,
+            'writter_id' => $request['uid'],
+            'is_varified' => 'no',
+        ]);
+        return response()->json(['success'=> $bl]);
+    });
     Route::post('/blog-query', function (Request $request) {
         $type = $request['type'];
         if($type == 'all'){
@@ -226,12 +243,17 @@ Route::middleware('auth:sanctum')->group(function(){
         }
 
         $blogs = DB::table('blogs')
-            ->where('catagory_id',$type)
+                ->where('is_varified', 'yes')
+                ->where('catagory_id',$type)
             ->orderBy('id', 'desc')
             ->get();
         return $blogs;
-        
     });
+
+    Route::post('/delete-blog', function(Request $request){
+        blogs::find($request['id'])->delete();
+    });
+
     Route::post('/update-blog', function(Request $request){
         $blog = blogs::find($request['id']);
         $blog->fill([$request['field']=>$request['value']])->save();
