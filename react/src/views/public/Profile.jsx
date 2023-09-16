@@ -161,8 +161,8 @@ export default function Profile() {
                                 <img onClick={onLinkEdit} className='w-10 h-10 px-1 pb-2 rounded-lg hover:bg-blue-200' src={edit_icon} />
                             </div>
                             <div className="flex flex-col mt-5 space-y-3">
-                                <a href={user.linked_in} target="_blank" className='text-sm cursor-pointer w-[80%] text-center font-bold px-2 py-2 border-4 border-blue-900 rounded-xl text-white bg-blue-950 hover:bg-blue-800'>View My Linked In Profile</a>
-                                <a href={user.git} target="_blank" className='text-sm cursor-pointer w-[80%] text-center font-bold px-2 py-2 border-4 border-gray-700 rounded-xl text-white bg-gray-800 hover:bg-gray-600'>View My Git Hub Profile</a>
+                                <a href={user.linked_in} target="_blank" className='text-sm cursor-pointer w-[80%] text-center font-bold px-2 py-2 border-4 border-blue-900 rounded-xl text-white bg-blue-950 hover:bg-blue-800'>{user.linked_in ? 'View My Linked In Profile' : 'Linked In Profile not found'}</a>
+                                <a href={user.git} target="_blank" className='text-sm cursor-pointer w-[80%] text-center font-bold px-2 py-2 border-4 border-gray-700 rounded-xl text-white bg-gray-800 hover:bg-gray-600'>{user.git ? 'View My Git Hub Profile' : 'Git Profile not found'}</a>
                                 <h2 className='text-lg font-semibold'>Online Judge</h2>
                                 <button className='text-sm  font-bold px-2 py-2 border-4 border-gray-400 rounded-xl text-white bg-gray-600 hover:bg-gray-700'>View My Code Forces Profile</button>
                                 <button className='text-sm  font-bold px-2 py-2 border-4 border-gray-400 rounded-xl text-white bg-gray-600 hover:bg-gray-700'>View My UVA Profile</button>

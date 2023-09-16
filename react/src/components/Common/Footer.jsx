@@ -4,9 +4,9 @@ export default function Footer() {
     return (
         <div>
             <footer class="bg-slate-100">
-                <div class="flex flex-col mx-auto max-w-screen-xl space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
-                    <div class="flex flex-col justify-between lg:flex-row lg:space-x-10">
-                        <div>
+                <div class="flex flex-col mx-auto max-w-screen-xl space-y-8 px-4 py-4 sm:px-6 lg:space-y-16 lg:px-8">
+                    <div class="flex flex-col justify-between items-center lg:flex-row lg:space-x-10">
+                        <div className='flex flex-col text-center my-8'>
                             <a class="flex flex-col text-center" href='/home'>
 
 
@@ -18,7 +18,7 @@ export default function Footer() {
                                 </h2>
 
                             </a>
-                            <a className='cursor-pointer text-sky-400 text-2xl font-semibold'>
+                            <a className='cursor-pointer self-center text-sky-400 text-2xl font-semibold'>
                                 Pabna University of Science and Technology
                             </a>
                         </div>
@@ -30,7 +30,7 @@ export default function Footer() {
                                 We work together to explore every field of Computer Science. Join us to know more.
                             </p>
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col my-8">
                             <h2 className='text-2xl font-bold self-center'>Find Us On</h2>
 
                             <ul class="mt-8 flex gap-6">
@@ -127,7 +127,7 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    <p class="text-xs text-gray-500">
+                    <p class="text-xs self-center pb-5 text-gray-500">
                         &copy; 2023. CPC PUST. All rights reserved.
                     </p>
                 </div>

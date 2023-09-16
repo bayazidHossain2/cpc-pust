@@ -551,9 +551,9 @@ export default function HomeU() {
           </div>
         </div>
         <div className="flex flex-row w-[50%] justify-between text-slate-500 text-2xl mt-5 mb-[10vh] self-center">
-          <button className='border-2 border-orange-600 px-2 bg-orange-50 rounded-lg hover:bg-orange-200'>Prev</button>
+          <button className='border-2 border-orange-600 px-2 bg-orange-50 rounded-lg hover:bg-orange-200'>{'<<Prev'}</button>
           <h2 className=' text-3xl text-orange-600 font-semibold'>#TEAM 2022</h2>
-          <button className='border-2 border-orange-600 px-2 bg-orange-50 rounded-lg hover:bg-orange-200'>Next</button>
+          <button className='border-2 border-orange-600 px-2 bg-orange-50 rounded-lg hover:bg-orange-200'>{'Next>>'}</button>
           
         </div>
       </div>
