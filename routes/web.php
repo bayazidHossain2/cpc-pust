@@ -33,11 +33,20 @@ Route::get('/', function () {
 
 Route::get('/ff', function () {
 
-    $user = User::find(1);
-    $user->fill(['name'=>'Md Bayazid Hossain', 'department'=>'CSE'])->save();
-   
-    echo 'Mail send success';
-    echo $user;
+    $blogs = DB::table('blogs')
+                ->where('is_varified', 'yes')
+                ->orderBy('id', 'desc')
+                ->get();
+
+            foreach($blogs as &$value){
+                $value->blog_content = 'Blog content';
+                $value->writter_name = User::find($value->writter_id)->name;
+                echo $value->blog_title;
+                echo '<br>';
+            }
+            echo '<br>';
+            echo '<br>';
+            echo $blogs;
     // echo gettype((object)$users);
     // echo gettype($user_id[0]);
     // echo (object)$users;

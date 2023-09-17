@@ -104,7 +104,8 @@ export default function BlogRequests() {
                                                 </div>
                                                 <div className="flex flex-row items-center">
                                                     <h3 className='font-semibold text-blue-700 mr-2'>Blog Content:</h3>
-                                                    <p className=' text-blue-700'>{b.blog_content}</p>
+                                                    <p className=' text-blue-700'>{}</p>
+                                                    <div dangerouslySetInnerHTML={{ __html: b.blog_content }} />
                                                 </div>
                                                 <div className="flex flex-row items-center">
                                                     <h3 className='font-semibold text-blue-700 mr-2'>Is varified:</h3>

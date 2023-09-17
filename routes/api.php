@@ -233,6 +233,10 @@ Route::middleware('auth:sanctum')->group(function(){
                 ->where('is_varified', 'yes')
                 ->orderBy('id', 'desc')
                 ->get();
+
+            foreach($blogs as &$value){
+                $value->writter_name = User::find($value->writter_id)->name;
+            }
             return $blogs;
         }else if($type == 'requested'){
             $blogs = DB::table('blogs')
